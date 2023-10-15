@@ -1,0 +1,39 @@
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+    
+  <div class="w3-container">
+    <h5>Dashboard</h5>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Fechar Menu</a>
+    <a href="/noauth/views/results-year" class="w3-bar-item w3-button w3-padding w3-blue">  Resultados por ano</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding">  Compare Eleições</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding">  Busca por Candidato</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding">  Evolução Histórica</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding">  Busca por Partido</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding">  Downloads</a>   
+  </div>
+</nav>
+<script>
+     // Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+</script>
