@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Gráficos de Barras</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <meta name="viewport" content="width=device-width, initial-scale=1">     
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}</style>
+        <link rel="stylesheet" href="/css/main.css">
+  </head>
+  <body class="w3-light-grey">
+     <%- include('./header') %>
+        <%- include('./navbar') %>
+         <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+        <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+             <header class="w3-container" style="padding-top:22px">
+                <h3><b>Resultados do ano:</b></h3>
+            </header>
+            <div class="w3-container">
+                <% chartData.forEach((category, index) => { %>
+                    <div class="chart-new">
+                    <h5><%= category.categoria %></h5>
+                    <canvas id="<%= category.id %>Chart" width="300" height="80"></canvas>
+                    </div>
+                        <% }); %>
+                        
+                        <script>
+                            
+                        <% chartData.forEach((category, index) => { %> 
+                            
+                            const ctx<%= index %> = document.getElementById('<%= category.id %>Chart').getContext('2d');                        
+                            const labels<%= index %> = <%- JSON.stringify(category.labels) %>;                        
+                            const data<%= index %> = <%- JSON.stringify(category.data) %>;
+                            new Chart(ctx<%= index %>, {
+                            type: 'bar',
+                            data: {
+                                labels: labels<%= index %>,
+                                datasets: [{
+                                label: "<%= category.categoria %>",
+                                data: data<%= index %>,
+                                backgroundColor: 'rgba(33, 150, 243)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                                }]
+                            }
+                            });
+                            
+                        <% }); %>
+                        </script>
+                      
+            </div>
+  </body>
+</html>
