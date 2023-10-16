@@ -20,17 +20,15 @@
                 <h3><b>Resultados do ano:</b></h3>
             </header>
             <div class="w3-container">
-                <% chartData.forEach((category, index) => { %>
-                    <div class="chart-new">
+                <div class="charts">
+                    <% chartData.forEach((category, index) => { %>
+                    <div class="chart">
                     <h5><%= category.categoria %></h5>
                     <canvas id="<%= category.id %>Chart" width="300" height="80"></canvas>
                     </div>
-                        <% }); %>
-                        
-                        <script>
-                            
-                        <% chartData.forEach((category, index) => { %> 
-                            
+                        <% }); %>                        
+                        <script>                            
+                        <% chartData.forEach((category, index) => { %>                             
                             const ctx<%= index %> = document.getElementById('<%= category.id %>Chart').getContext('2d');                        
                             const labels<%= index %> = <%- JSON.stringify(category.labels) %>;                        
                             const data<%= index %> = <%- JSON.stringify(category.data) %>;
@@ -46,11 +44,10 @@
                                 borderWidth: 1
                                 }]
                             }
-                            });
-                            
+                            });                            
                         <% }); %>
                         </script>
-                      
+                </div>
             </div>
   </body>
 </html>

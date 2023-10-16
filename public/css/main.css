@@ -1,7 +1,14 @@
-.chart-new {
+.chart {
     border: 1px solid rgb(180, 180, 180);
     border-radius: 4px;
     /* border-bottom: 8px solid rgb(180, 180, 180); */
     padding: 25px;
-    border-bottom: 8px solid rgb(33, 150, 243);
+    background-color: white;
+    /* border-bottom: 8px solid rgb(33, 150, 243); */
+}
+
+.charts {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
