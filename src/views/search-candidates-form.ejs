@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Buscar Candidatos</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/css/main.css">
+        <style>html,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}</style>
+    </head>
+
+    <body class="w3-light-grey">
+        <%- include('./header') %>
+        <%- include('./navbar') %>
+        <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+        <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+             <header class="w3-container" style="padding-top:22px">
+                <h5><b>Busque Candidatos:</b></h5>                
+            </header>
+            <div class="w3-container">
+                <form action="/noauth/candidate/search" method="get">
+                    
+               <input type="text" id="nome"  onkeyup="search()" placeholder="Digite o nome do candidato">
+                <br>  
+                <br>       
+                <label for="candidatoid"></label> 
+                <select id="results" name="candidatoid">                    
+                </select>
+                <br> 
+                <div id="loadingIndicator" style="display: none;" class="spinner-border text-primary"></div>
+                <button id="loadMoreButton" style="display: none;" class="w3-button w3-blue" onclick="loadMore()">Carregar Mais</button>
+                
+                
+                <br>  
+                <br>
+                <button type="submit" class="w3-button w3-dark-grey">Selecionar <i class="fa fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+           
+        <script>
+        var currentPage = 1;
+        const pageSize = 50;
+        var resultsSelect = document.getElementById('results');
+        
+        function search() {          
+            
+            var nome = document.getElementById('nome').value;  
+            var loadingIndicator = document.getElementById('loadingIndicator');
+            var loadMoreButton = document.getElementById('loadMoreButton');
+            loadingIndicator.style.display = 'block';
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/noauth/candidate/search', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var results = JSON.parse(xhr.responseText);
+                    resultsSelect.innerHTML = '';
+                    if (results && results.success && results.data) {
+                        results.data.rows.forEach(function(result) {
+                            var option = document.createElement('option');
+                            option.value = result.id;
+                            option.text = result.nome;
+                            resultsSelect.appendChild(option);
+                        });
+                        var totalResults = results.data.count;
+                        var currentResults = results.data.rows.length;
+
+                        if (totalResults > currentResults) {
+                            // Exibir o botão "Carregar Mais" se houver mais resultados
+                            loadMoreButton.style.display = 'block';
+                        } else {
+                            // Ocultar o botão "Carregar Mais" se não houver mais resultados
+                            loadMoreButton.style.display = 'none';
+                        }
+                    }
+                    
+                    loadingIndicator.style.display = 'none';
+                }
+            };                    
+                xhr.send(JSON.stringify({ nome, page: currentPage, pageSize: pageSize }));
+        }
+
+        function loadMore() {           
+            currentPage++; // Avance para a próxima página
+            search(); // Realize uma nova busca com a página atualizada
+        }
+        
+        
+        
+       
+    </script>
+    </body>
+    
+</html>

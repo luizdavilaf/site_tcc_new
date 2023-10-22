@@ -8,6 +8,14 @@ const findAll = () => {
     })
 }
 
+const findById = (id) => {
+    return Eleicao.findOne({
+        where: {id},
+        raw: true,       
+    })
+}
+
 module.exports = {
+    findById,
     findAll
 }

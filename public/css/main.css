@@ -2,7 +2,7 @@
     border: 1px solid rgb(180, 180, 180);
     border-radius: 4px;
     /* border-bottom: 8px solid rgb(180, 180, 180); */
-    padding: 25px;
+    padding: 10px;
     background-color: white;
     /* border-bottom: 8px solid rgb(33, 150, 243); */
 }
@@ -10,5 +10,55 @@
 .charts {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
+}
+
+.candidato-perfil {
+    margin: 5px;
+    flex-direction: row;
+    display: flex;
+}
+
+.candidato-image {
+    border-radius: 3px;
+    border: 2px solid black;
+    border-color: black;
+    height: 150px;
+    width: 125px;
+    margin: 5px;
+}
+
+.menu-item.active {
+    background-color: #0074d9;
+    /* Cor de destaque */
+    color: #fff;
+    /* Cor do texto destacado */
+}
+
+input,
+select {   
+    max-width: 500px;
+    width: 400px;    
+    padding: 10px 20px;
+    /* Define a largura máxima desejada */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    /* Adicione algum espaço entre os rótulos */
+}
+
+button {    
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+body {
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+}
+form {
+    padding: 15px;
 }

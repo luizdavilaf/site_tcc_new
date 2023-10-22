@@ -5,12 +5,12 @@
   </div>
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Fechar Menu</a>
-    <a href="/noauth/views/results-year" class="w3-bar-item w3-button w3-padding w3-blue">  Resultados por ano</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding">  Compare Eleições</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding">  Busca por Candidato</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding">  Evolução Histórica</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding">  Busca por Partido</a>
-    <a href="#" class="w3-bar-item w3-button w3-padding">  Downloads</a>   
+    <a href="/noauth/views/results-year" class="w3-bar-item w3-button w3-padding menu-item">  Resultados por ano</a>
+    <a href="/noauth/views/compare-regions" class="w3-bar-item w3-button w3-padding menu-item">  Compare Eleições</a>
+    <a href="/noauth/views/search-candidates-form" class="w3-bar-item w3-button w3-padding menu-item">  Busca por Candidato</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding menu-item">  Evolução Histórica</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding menu-item">  Busca por Partido</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding menu-item">  Downloads</a>   
   </div>
 </nav>
 <script>
@@ -36,4 +36,23 @@ function w3_close() {
   mySidebar.style.display = "none";
   overlayBg.style.display = "none";
 }
+
+
+  // Pega a URL da página atual
+  var currentPage = window.location.pathname;
+
+  // Seleciona todos os elementos de menu
+  var menuItems = document.querySelectorAll(".menu-item");
+
+  // Percorre os elementos de menu
+  menuItems.forEach(function(item) {
+    // Obtém o valor do atributo "href" do elemento de menu
+    var menuItemHref = item.getAttribute("href");
+
+    // Verifica se a URL da página atual corresponde ao href do item de menu
+    if (currentPage === menuItemHref) {
+      // Adiciona uma classe para destacar o item de menu
+      item.classList.add("w3-blue"); // Use a classe desejada para destacar
+    }
+  });
 </script>

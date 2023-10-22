@@ -52,6 +52,10 @@ const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => 
                 } */
             ],
         attributes: [
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
             [Sequelize.col('Candidato->Genero.DS_GENERO'), 'genero'],
             [Sequelize.fn('COUNT', Sequelize.col('Candidato.id')), 'totalCandidatos'],
         ],
@@ -93,6 +97,10 @@ const getCandidatoEleicaoByDegree = (eleicao, regiao, situacao_turno, cargo) => 
                 }
             ],
         attributes: [
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
             [Sequelize.col('GrauDeInstrucao.DS_GRAU_INSTRUCAO'), 'grau_instrucao'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],            
         ],
@@ -131,6 +139,10 @@ const getCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
                 },                
             ],
         attributes: [
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
             [Sequelize.col('CandidatoEleicao.NR_IDADE_DATA_POSSE'), 'idade'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
@@ -207,6 +219,10 @@ const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) 
                 },
             ],
         attributes: [
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
             [Sequelize.col('Ocupacao.DS_OCUPACAO'), 'ocupacao'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
@@ -247,6 +263,10 @@ const getCandidatoEleicaoByParty = (eleicao, regiao, situacao_turno, cargo) => {
                 },
             ],
         attributes: [
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
             [Sequelize.col('Partido.SG_PARTIDO'), 'partido'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
@@ -291,7 +311,12 @@ const getCandidatoEleicaoByRace = (eleicao, regiao, situacao_turno, cargo) => {
                 }               
             ],
         attributes: [
-            [Sequelize.col('Candidato->Raca.DS_COR_RACA'), 'raca'],
+            //[Sequelize.col('Candidato->Raca.DS_COR_RACA'), 'raca'],
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
+            [Sequelize.fn('COALESCE', Sequelize.col('Candidato->Raca.DS_COR_RACA'), 'Sem dados'), 'raca'],
             [Sequelize.fn('COUNT', Sequelize.col('Candidato.id')), 'totalCandidatos'],
         ],
         group: [Sequelize.col('Candidato->Raca.DS_COR_RACA')],
@@ -328,14 +353,21 @@ const getCandidatoEleicaoReelection = (eleicao, regiao, situacao_turno, cargo) =
                 },
             ],
         attributes: [
-            [Sequelize.col('CandidatoEleicao.ST_REELEICAO'), 'reeleito'],
+            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
+            [Sequelize.col('CandidatoEleicao.ST_REELEICAO'), 'reeleito'],           
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
         group: [Sequelize.col('CandidatoEleicao.ST_REELEICAO')],
-
         raw: true,
-
-    })
+    }).then(results => {    
+        results.forEach(result => {
+            result.reeleito = result.reeleito === 0 ? 'NAO' : 'SIM';
+        });
+        return results;
+    });
 }
 
 module.exports = {

@@ -2,13 +2,13 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Resultados por ano</title>
+    <title>Comparação de Eleições</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1">     
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}</style>
+        <style>html,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}</style>
         <link rel="stylesheet" href="/css/main.css">
   </head>
   <body class="w3-light-grey">
@@ -17,20 +17,19 @@
          <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
         <div class="w3-main" style="margin-left:300px;margin-top:43px;">
              <header class="w3-container" style="padding-top:22px">
-                 <h3><b>Resultados da <%= `${dataGeral.eleicao}` %>:</b></h3>
-                 <h4><b><%= `${dataGeral.regiao}` %></b></h4>
+                <h3><b>Compare <%= chartData[0].categoria %> nas Eleições:</b></h3>
             </header>
             <div class="w3-container">
                 <div class="charts">
                     <% chartData.forEach((category, index) => { %>
                         <div class="chart">
-                        <h5><%= category.categoria %></h5>
-                        <canvas id="<%= category.id %>Chart" width="300" height="80"></canvas>
+                        <h5><b><%= `${category.eleicao}` %></b></h5>                                            
+                        <canvas id="<%= `${category.id}${index}` %>Chart" width="300" height="80"></canvas>
                         </div>
                     <% }) %>
                         <script>
                             <% chartData.forEach((category, index) => { %>
-                                const ctx<%=index%> = document.getElementById('<%= category.id %>Chart').getContext('2d');                        
+                                const ctx<%=index%> = document.getElementById('<%= `${category.id}${index}` %>Chart').getContext('2d');                        
                                 const labels<%= index %> = <%- JSON.stringify(category.labels) %>;                        
                                 const data<%= index %> = <%- JSON.stringify(category.data) %>;
                                 <% if(category.id != "partido" ) {%>
@@ -43,22 +42,25 @@
                                             data: data<%= index %>,
                                             backgroundColor: 'rgba(33, 150, 243)',
                                             borderColor: 'rgba(75, 192, 192, 1)',
-                                            borderWidth: 1,
+                                            borderWidth: 1
                                             }]
                                         },
-                                        options: {                                            
-                                            plugins: {
-                                                legend: {
-                                                    position: 'bottom', // Mova a legenda para a parte inferior
-                                                    display: false,
-                                                },
-                                                
-                                            },                                                                                            
+                                        options: {
+                                                plugins: {
+                                                    legend: {
+                                                        position: "bottom", // Mova a legenda para a parte inferior
+                                                        display: false,
+                                                    },
+                                                    title: {
+                                                        display: true,
+                                                        text:"<%=`${category.regiao}` %>"
+                                                    },
+                                                },                                                                                            
                                         }   
                                     });
                                 <% } else { %> 
-                                        const numBars = data<%= index %>.length;
-                                        const backgroundColors = generateSequentialColors(numBars);
+                                        const numBars<%= index %> = data<%= index %>.length;
+                                        const backgroundColors<%= index %> = generateSequentialColors(numBars<%= index %>);
                                     
                                         new Chart(ctx<%= index %>, {
                                             type: 'doughnut',
@@ -67,7 +69,7 @@
                                                 datasets: [{
                                                     label: "Quantidade",
                                                     data: data<%= index %>,
-                                                    backgroundColor: backgroundColors,
+                                                    backgroundColor: backgroundColors<%= index %>,
                                                     borderColor: 'rgb(180, 180, 180)',
                                                     borderWidth: 1,
                                                     cutout: '25%',
@@ -81,8 +83,12 @@
                                             options: {
                                                 plugins: {
                                                     legend: {
-                                                        position: 'bottom' // Mova a legenda para a parte inferior
-                                                    }
+                                                        position: 'bottom', // Mova a legenda para a parte inferior                                                        
+                                                    },
+                                                    title: {
+                                                        display: true,
+                                                        text:"<%=`${category.regiao}` %>"
+                                                    },
                                                 },                                            
                                                 maintainAspectRatio: true,
                                                 aspectRatio: 2,
