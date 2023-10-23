@@ -8,4 +8,6 @@ router.get("/compare-regions", viewsController.renderResultsYearFormForCompare)
 
 router.get("/search-candidates-form", viewsController.renderSearchCandidates)
 
+router.get("/historic-evolution-form", viewsController.renderHistoricEvolution)
+
 module.exports = router

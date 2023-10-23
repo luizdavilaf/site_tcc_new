@@ -40,8 +40,20 @@ const renderSearchCandidates = async (req, res) => {
     }
 }
 
+const renderHistoricEvolution = async (req,res) =>{
+    try {       
+        const abrangencias = await UnidadeEleitoralService.findAllAbrangencies()
+        const situacoes_turno = await SituacaoTurnoService.findAll()
+        const cargos = await CargoService.findAll()
+        return res.render("historic-evolution-form", {  abrangencias, situacoes_turno, cargos })        
+    } catch (error) {
+        console.log(error)
+        return res.render("error", { message: "Erro ao renderizar evolucao historica" })
+    }
+}
 
 module.exports = {
+    renderHistoricEvolution,
     renderSearchCandidates,
     renderResultsYearForm,
     renderResultsYearFormForCompare

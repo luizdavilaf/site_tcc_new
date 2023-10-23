@@ -31,11 +31,15 @@
                 <br>  
                 <br>       
                 <label for="candidatoid"></label> 
-                <select id="results" name="candidatoid">                    
-                </select>
-                <br> 
-                <div id="loadingIndicator" style="display: none;" class="spinner-border text-primary"></div>
-                <button id="loadMoreButton" style="display: none;" class="w3-button w3-blue" onclick="loadMore()">Carregar Mais</button>
+                <div class="search-select">
+                    <select id="results" name="candidatoid">                    
+                    </select>
+                    <br> 
+                    <div id="loadingIndicator" style="display: none;margin-left: 10px;" class="spinner-border text-primary"></div>
+                    <button id="loadMoreButton" style="display: none; margin-left: 10px;" class="w3-button w3-blue" type="button" onclick="loadMore()">Carregar Mais</button>   
+                </div>
+                <div id="load-more-description" class="load-more-text" style="display: none; margin-left: 10px;"></div>
+                
                 
                 
                 <br>  
@@ -55,6 +59,7 @@
             var nome = document.getElementById('nome').value;  
             var loadingIndicator = document.getElementById('loadingIndicator');
             var loadMoreButton = document.getElementById('loadMoreButton');
+            var loadMoreText = document.getElementById('load-more-description');
             loadingIndicator.style.display = 'block';
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/noauth/candidate/search', true);
@@ -75,13 +80,16 @@
 
                         if (totalResults > currentResults) {
                             // Exibir o botão "Carregar Mais" se houver mais resultados
+                            loadMoreText.innerHTML = '';
+                            loadMoreText.innerHTML = `Mostrando ${currentResults*(currentPage-1)+1} até ${currentResults*currentPage} de ${totalResults} resultados`;
+                            loadMoreText.style.display = 'block';
                             loadMoreButton.style.display = 'block';
                         } else {
                             // Ocultar o botão "Carregar Mais" se não houver mais resultados
+                            loadMoreText.style.display = 'none';
                             loadMoreButton.style.display = 'none';
                         }
-                    }
-                    
+                    }                    
                     loadingIndicator.style.display = 'none';
                 }
             };                    

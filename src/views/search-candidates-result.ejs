@@ -26,18 +26,71 @@
             </header>
             <div class="w3-container">
                 <div class="candidato-body">
-                    <h6><%= `${candidato.nome}` %></h6>
+                    <h6><b>Nome:</b><%= ` ${candidato.nome}` %></h6>
                     <div class="candidato-perfil">                        
                         <div class="candidato-image">
-
+                            <% if(candidato.nome == "LUIZ INÁCIO LULA DA SILVA") { %>
+                               <img src="/images/lula.jpg" class="image-container">
+                            <%} else {%>
+                                <img src="/images/person.jpg" class="image-container">
+                            <%}%>
                         </div>
                         <div class="candidato-data">
-                            Idade: <%= `${candidato.idade}` %>
+                            <div><b>Gênero:</b> <%= `${candidato.genero}` %></div>
+                            <div><b>Data de Nascimento:</b> <%= `${candidato.data_nascimento}` %></div>
+                            <div><b>Idade:</b> <%= `${candidato.idade}` %></div>
+                            <div><b>Raça:</b> <%= `${candidato.raca}` %></div>
+                            <div><b>Local de Nascimento:</b> <%= `${candidato.local_nascimento}` %></div>
+                            <div><b>Grau de Instrução:</b> <%= `${candidato.grau_de_instrucao}` %></div>
+                            <div><b>Fidelidade Partidária:</b> <%= `${candidato.fidelidade_partidaria}` %></div>
+                            <div><b>Ocupação:</b> <%= `${candidato.ocupacao}` %></div>
+                            <div data-toggle="tooltip" data-placement="top" title="Ultima eleição menos a primeira"><b>Tempo de carreira Política:</b> <%= `${candidato.tempo_de_carreira}` %></div>
+
+                            
                         </div>
                     </div>
-                    <div class="candidato-table">
-                        <div class="table">
-
+                    <div class="candidato-table">                        
+                        <div class="table-cand">
+                            <table class='table-centered table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th>Partido</th>
+                                        <th>Eleição</th>
+                                        <th>Cargo</th>
+                                        <th>Situação do Turno</th>
+                                        <th>Unidade Eleitoral</th>
+                                        <th>Ocupação</th>
+                                        <th>Grau de Instrução</th>
+                                        <th>Situação da Candidatura</th>
+                                        <th>Ano da Eleição</th>
+                                        <th>Situação Reeleição</th>
+                                        <th>Idade na Posse</th>
+                                        <th>Coligação</th>
+                                        <th>Nome na Urna</th>
+                                        <th>Despesa de Campanha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% eleicoes.forEach(eleicao => { %>
+                                        <tr>
+                                            <td><%= eleicao.partido %></td>
+                                            <td><%= eleicao.eleicao %></td>
+                                            <td><%= eleicao.cargo %></td>
+                                            <td><%= eleicao.situacao_turno %></td>
+                                            <td><%= eleicao.unidade_eleitoral %></td>
+                                            <td><%= eleicao.ocupacao %></td>
+                                            <td><%= eleicao.grau_de_instrucao %></td>
+                                            <td><%= eleicao.situacao_candidatura %></td>
+                                            <td><%= eleicao.ano_eleicao %></td>
+                                            <td><%= eleicao.situacao_reeleicao %></td>
+                                            <td><%= eleicao.idade_data_da_posse %></td>
+                                            <td><%= eleicao.coligacao %></td>
+                                            <td><%= eleicao.nome_urna_candidato %></td>
+                                            <td><%= eleicao.despesa_campanha %></td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

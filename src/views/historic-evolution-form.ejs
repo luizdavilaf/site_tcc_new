@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Evolução Histórica</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <style>html,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}</style>
+    </head>
+
+    <body class="w3-light-grey">
+        <%- include('./header') %>
+        <%- include('./navbar') %>
+        <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+        <div class="w3-main" style="margin-left:300px;margin-top:43px;">
+             <header class="w3-container" style="padding-top:22px">
+                <h5><b>Evolução Histórica:</b></h5>
+            </header>
+            <div class="w3-container">
+                <form action="/noauth/candidate-election/historic-evolution" method="post">                                                     
+                    <label for="eleicao1[abrangencia]">Abrangência:</label>
+                    <select id="eleicao1[abrangencia]" name="eleicao1[abrangencia]">
+                        <option selected>Selecione a Abrangência...</option>
+                        <% abrangencias.forEach(function(row) { %>
+                        <option value="<%= row.abrangencia %>"><%= row.abrangencia %></option>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="eleicao1[regiao]">Região:</label>
+                    <select id="eleicao1[regiao]" name="eleicao1[regiao]">
+                        <option selected>Selecione a Abrangência primeiro...</option>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="eleicao1[situacao_turno]">Situação Turno:</label>
+                    <select id="eleicao1[situacao_turno]" name="eleicao1[situacao_turno]">
+                        <option selected>Selecione a Situação do Turno...</option>
+                        <option value="todos">Todas</option>
+                        <% situacoes_turno.forEach(function(row) { %>
+                        <option value="<%= row.id %>"><%= row.nome %></option>
+                        <% }); %>
+                    </select>
+                    <br>
+                    <br>
+                    <label for="eleicao1[cargo]">Cargo:</label>
+                    <select id="eleicao1[cargo]" name="eleicao1[cargo]">
+                        <option selected>Selecione o Cargo...</option>
+                        <option value="todos">Todos os cargos</option>                        
+                        <% cargos.forEach(function(row) { %>
+                        <option value="<%= row.id %>"><%= row.nome_cargo %></option>
+                        <% }); %>
+                    </select>                    
+                    <br>  
+                    <br> 
+
+                   
+                    <h6><b>Selecione a variável para comparação:</b></h6>                    
+                    <select id="variavel" name="variavel">
+                        <option selected>Selecione a variável...</option>
+                        <option value="genero">Gênero</option>   
+                        <option value="idade">Idade</option>
+                        <option value="partido">Partido</option>
+                        <option value="ocupacao">Ocupação</option>
+                        <option value="grau_instrucao">Grau de Instrução</option>                     
+                        <option value="reeleicao">Reeleição</option>
+                        <option value="raca">Raça</option>
+                        
+                    </select>  
+                    <br>  
+                    <br>
+                    <button type="submit" class="w3-button w3-dark-grey">Buscar <i class="fa fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </div>
+           
+    </body>
+    <script>
+        const abrangenciaSelect = document.getElementById('eleicao1[abrangencia]');
+        const regiaoSelect = document.getElementById('eleicao1[regiao]');
+
+        abrangenciaSelect.addEventListener('change', async function() {
+            const abrangencia = abrangenciaSelect.value;
+
+            const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
+            const data = await response.json()
+            regiaoSelect.innerHTML = '';
+            data.data.forEach(regiao => {
+            const option = document.createElement('option');
+            option.value = regiao.id;
+            option.textContent = `${regiao.estado} - ${regiao.nome}`;
+            regiaoSelect.appendChild(option);
+            });
+        });
+
+        const abrangenciaSelect2 = document.getElementById('eleicao2[abrangencia]');
+        const regiaoSelect2 = document.getElementById('eleicao2[regiao]');
+
+        abrangenciaSelect2.addEventListener('change', async function() {
+            const abrangencia = abrangenciaSelect2.value;
+
+            const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
+            const data = await response.json()
+            regiaoSelect2.innerHTML = '';
+            data.data.forEach(regiao => {
+            const option = document.createElement('option');
+            option.value = regiao.id;
+            option.textContent = `${regiao.estado} - ${regiao.nome}`;
+            regiaoSelect2.appendChild(option);
+            });
+        });
+       
+    </script>
+</html>

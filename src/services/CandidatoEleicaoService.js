@@ -40,10 +40,10 @@ const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => 
                 },
                 {
                     model: Candidato,
-                    attributes: [],
+                    attributes: [],                    
                     include: {
                         model: Genero,
-                        attributes: []
+                        attributes: [],                        
                     }
                 }
                 /* ,
@@ -55,11 +55,12 @@ const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => 
             [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
             [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],
             [Sequelize.col('UnidadeEleitoral.SG_UF'), 'estado'],
-            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],
-            [Sequelize.col('Candidato->Genero.DS_GENERO'), 'genero'],
-            [Sequelize.fn('COUNT', Sequelize.col('Candidato.id')), 'totalCandidatos'],
+            [Sequelize.col('UnidadeEleitoral.NM_UE'), 'nome'],            
+            [Sequelize.col('Candidato->Genero.DS_GENERO'), 'genero'],            
+            [Sequelize.fn('COUNT', Sequelize.col('Candidato.id')), 'totalCandidatos'],            
         ],
-        group: [Sequelize.col('Candidato->Genero.DS_GENERO')],        
+        //group: [Sequelize.col('Candidato->Genero.DS_GENERO')],        
+        group: ['genero'],
         raw: true,
         subQuery: false,
     })
