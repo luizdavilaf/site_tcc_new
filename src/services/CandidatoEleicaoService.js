@@ -14,6 +14,10 @@ const  sequelize  = require("../../db/sequelize-connection");
 
 const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -29,14 +33,12 @@ const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => 
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                   
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                    
                 },
                 {
                     model: Candidato,
@@ -68,6 +70,10 @@ const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => 
 
 const getCandidatoEleicaoByDegree = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -83,14 +89,12 @@ const getCandidatoEleicaoByDegree = (eleicao, regiao, situacao_turno, cargo) => 
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                   
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                    
                 },                                
                 {
                     model: GrauDeInstrucao,    
@@ -114,6 +118,10 @@ const getCandidatoEleicaoByDegree = (eleicao, regiao, situacao_turno, cargo) => 
 
 const getCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {            
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -129,14 +137,12 @@ const getCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                    
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                    
                 },                
             ],
         attributes: [
@@ -190,6 +196,10 @@ const getCandidatoEleicaoByDegree2 = (eleicao, regiao, situacao_turno, cargo) =>
 
 const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -205,14 +215,12 @@ const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) 
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                   
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                   
                 },
                 {
                     model: Ocupacao,
@@ -234,6 +242,10 @@ const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) 
 
 const getCandidatoEleicaoByParty = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -249,14 +261,12 @@ const getCandidatoEleicaoByParty = (eleicao, regiao, situacao_turno, cargo) => {
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                    
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                   
                 },
                 {
                     model: Partido,
@@ -278,6 +288,10 @@ const getCandidatoEleicaoByParty = (eleicao, regiao, situacao_turno, cargo) => {
 
 const getCandidatoEleicaoByRace = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -293,14 +307,12 @@ const getCandidatoEleicaoByRace = (eleicao, regiao, situacao_turno, cargo) => {
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                    
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                    
                 },
                 {
                     model: Candidato,
@@ -328,6 +340,10 @@ const getCandidatoEleicaoByRace = (eleicao, regiao, situacao_turno, cargo) => {
 
 const getCandidatoEleicaoReelection = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao
+        },
         include:
             [
                 {
@@ -343,14 +359,12 @@ const getCandidatoEleicaoReelection = (eleicao, regiao, situacao_turno, cargo) =
                 ,
                 {
                     model: UnidadeEleitoral,
-                    attributes: [],
-                    where: { id: regiao }
+                    attributes: [],                    
                 }
                 ,
                 {
                     model: Eleicao,
-                    attributes: [],
-                    where: { id: eleicao }
+                    attributes: [],                    
                 },
             ],
         attributes: [

@@ -13,5 +13,8 @@ router.use('/candidate-election', CandidatoEleicao);
 const Candidato = require('../routes/Candidato');
 router.use('/candidate', Candidato);
 
+const Partido = require('../routes/Partido');
+router.use('/party', Partido);
+
 
 module.exports = router

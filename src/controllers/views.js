@@ -3,6 +3,7 @@ const EleicaoService = require("../services/EleicaoService")
 const UnidadeEleitoralService = require("../services/UnidadeEleitoralService")
 const SituacaoTurnoService = require("../services/SituacaoTurnoService")
 const CargoService = require("../services/CargoService")
+const PartidoService = require("../services/PartidoService")
 
 const renderResultsYearForm = async (req, res) => {
     try {
@@ -52,7 +53,19 @@ const renderHistoricEvolution = async (req,res) =>{
     }
 }
 
+const renderPartyHistoricEvolution = async (req, res) => {
+    try {
+        
+        const partidos = await PartidoService.findAll()       
+        return res.render("party-historic-evolution-form", { partidos })
+    } catch (error) {
+        console.log(error)
+        return res.render("error", { message: "Erro ao renderizar evolucao historica" })
+    }
+}
+
 module.exports = {
+    renderPartyHistoricEvolution,
     renderHistoricEvolution,
     renderSearchCandidates,
     renderResultsYearForm,

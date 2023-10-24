@@ -20,7 +20,7 @@
                  <h3><b>Evolução Histórica:</b></h3>                 
             </header>
             <div class="w3-container">
-                
+                 <div> <%= `${partido.sigla} - ${partido.nome}`%></div>
                     
                 <div class="chart">
                 
@@ -35,13 +35,13 @@
                     options: {
                         responsive: true,
                         plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        title: {
-                            display: true,
-                            text: '<%-regiao%>'
-                        }
+                            legend: {
+                                position: 'bottom',
+                            },
+                            title: {
+                                display: true,
+                                text: '<%= `${tituloVariavel}`%>'
+                            }
                         }
                     },
                 };

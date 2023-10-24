@@ -42,43 +42,43 @@ const getFormData = async (req, res) => {
                 id: "graudeinstrucao",
                 categoria: "Grau de Instrução",
                 labels: data[0].map((item) => item.grau_instrucao),
-                data: data[0].map(item => item.totalCandidatos),               
+                data: data[0].map(item => item.totalCandidatos),
             },
             {
                 id: "genero",
                 categoria: "Gênero",
                 labels: data[1].map(item => item.genero),
-                data: data[1].map(item => item.totalCandidatos),                
+                data: data[1].map(item => item.totalCandidatos),
             },
             {
                 id: "idade",
                 categoria: "Idade",
                 labels: data[2].map(item => item.idade),
-                data: data[2].map(item => item.totalCandidatos),               
+                data: data[2].map(item => item.totalCandidatos),
             },
             {
                 id: "ocupacao",
                 categoria: "Ocupação",
                 labels: data[3].map(item => item.ocupacao),
-                data: data[3].map(item => item.totalCandidatos),              
+                data: data[3].map(item => item.totalCandidatos),
             },
             {
                 id: "partido",
                 categoria: "Partido",
                 labels: data[4].map(item => item.partido),
-                data: data[4].map(item => item.totalCandidatos),               
+                data: data[4].map(item => item.totalCandidatos),
             },
             {
                 id: "raca",
                 categoria: "Raça",
                 labels: data[5].map(item => item.raca),
-                data: data[5].map(item => item.totalCandidatos),               
+                data: data[5].map(item => item.totalCandidatos),
             },
             {
                 id: "reeleito",
                 categoria: "Reeleito",
                 labels: data[6].map(item => item.reeleito),
-                data: data[6].map(item => item.totalCandidatos),                
+                data: data[6].map(item => item.totalCandidatos),
             }
         ]
         //console.log(chartData[1])
@@ -136,7 +136,7 @@ const getFormDataForCompare = async (req, res) => {
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
         }
-  
+
         const data = await Promise.all(promises)
         const chartData = data.map(eleicao => object = {
             id: req.body.variavel,
@@ -148,7 +148,7 @@ const getFormDataForCompare = async (req, res) => {
         })
         console.log(chartData)
         res.render('compare-regions-charts.ejs', { chartData });
-        
+
 
 
     } catch (error) {
@@ -168,7 +168,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
         }
         const eleicoes = await EleicaoService.findAll()
         let regiao = ""
-        
+
         const promises = []
 
         let tituloVariavel = ""
@@ -178,48 +178,60 @@ const getFormDataForHistoricEvolution = async (req, res) => {
                 const eleicao = eleicoes[i];
                 promises.push(CandidatoEleicaoService.getCandidatoEleicaoByGender(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
             }
-            
+
         } else if (req.body.variavel == "idade") {
             tituloVariavel = "Idade"
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByAge(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByAge(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
+            for (let i = 0; i < eleicoes.length; i++) {
+                const eleicao = eleicoes[i];
+                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByAge(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+            }
         } else if (req.body.variavel == "partido") {
             tituloVariavel = "Partido"
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByParty(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByParty(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
+            for (let i = 0; i < eleicoes.length; i++) {
+                const eleicao = eleicoes[i];
+                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByParty(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+            }
         } else if (req.body.variavel == "ocupacao") {
             tituloVariavel = "Ocupação"
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByOcupation(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByOcupation(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
+            for (let i = 0; i < eleicoes.length; i++) {
+                const eleicao = eleicoes[i];
+                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByOcupation(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+            }
         } else if (req.body.variavel == "grau_instrucao") {
             tituloVariavel = "Grau de Instrução"
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
+            for (let i = 0; i < eleicoes.length; i++) {
+                const eleicao = eleicoes[i];
+                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+            }
         } else if (req.body.variavel == "reeleicao") {
             tituloVariavel = "Reeleição"
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoReelection(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoReelection(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
+            for (let i = 0; i < eleicoes.length; i++) {
+                const eleicao = eleicoes[i];
+                promises.push(CandidatoEleicaoService.getCandidatoEleicaoReelection(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+            }
         } else if (req.body.variavel == "raca") {
             tituloVariavel = "Raça"
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
+            for (let i = 0; i < eleicoes.length; i++) {
+                const eleicao = eleicoes[i];
+                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+            }
         }
 
         const setLabels = new Set()
         const setVariaveis = new Set()
-       
+
         const data = await Promise.all(promises)
-        const filteredElections = data.filter(sub=> sub.length > 0) //cada posicao é uma eleicao        
+        const filteredElections = data.filter(sub => sub.length > 0) //cada posicao é uma eleicao        
         for (let i = 0; i < filteredElections.length; i++) {
-            const eleicao = filteredElections[i];                       
-            for (let j = 0; j < eleicao.length; j++) {                
+            const eleicao = filteredElections[i];
+            for (let j = 0; j < eleicao.length; j++) {
                 const resultado = eleicao[j];
                 setLabels.add(`${resultado.anoEleicao} - ${resultado.turno}Turno`)
-                setVariaveis.add(resultado[req.body.variavel])            
-            }           
+                setVariaveis.add(resultado[req.body.variavel])
+            }
         }
         regiao = `${filteredElections[0][0].estado} - ${filteredElections[0][0].nome}`
-        
+
         const arrayDeVariaveis = [...setVariaveis]
         const labels = [...setLabels]
         const chartData = {
@@ -234,7 +246,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
                 backgroundColor: utils.generateSequentialColors(index),
                 borderColor: utils.generateSequentialColors(index)
             };
-            
+
 
             // Percorra os anos
             filteredElections.forEach((eleicao) => {
@@ -248,7 +260,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
             // Adicione o dataset ao objeto de dados final
             chartData.datasets.push(dataset);
         });
-        
+
         res.render('historic-evolution-result.ejs', { chartData, tituloVariavel, regiao });
 
 
