@@ -24,18 +24,18 @@
 
 .candidato-body {
     padding: 20px;
-align-items: center;
+    align-items: center;
 }
 
 .candidato-data {
     padding-left: 20px;
     margin: 5px;
     flex-direction: column;
-    display: flex;   
+    display: flex;
 
 }
 
-.candidato-table{
+.candidato-table {
     border-top: 1px solid grey;
 }
 
@@ -98,9 +98,11 @@ form {
     padding: 20px;
 }
 
-.table-centered td, th, thead {
-    text-align: center;    
-    vertical-align: middle;   
+.table-centered td,
+th,
+thead {
+    text-align: center;
+    vertical-align: middle;
 }
 
 th,
@@ -110,14 +112,75 @@ td {
     vertical-align: middle;
     padding: 5px;
 }
-thead{
+
+thead {
     background-color: rgb(33, 150, 243);
     color: #fff;
     text-align: center;
-        vertical-align: middle;
+    vertical-align: middle;
 }
 
 .image-container {
     width: 100%;
     height: 100%;
+}
+
+.loader {
+    border: 15px solid #f3f3f3;   
+    border-top: 15px solid #3498db;   
+    border-radius: 50%;
+    width: 150px;   
+    height: 150px;    
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);   
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex, none;
+}
+
+
+.loader-container p {
+    color: #fff;
+    font-size: 18px;
+    margin-top: 10px;    
+}
+
+.custom-icon {
+    font-size: 35px;    
+}
+
+.map-image{
+    padding: 20px;
+    height: 80%;
+    width: 70%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

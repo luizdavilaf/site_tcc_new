@@ -2,13 +2,14 @@
 <html>
 
     <head>
-        <title>Evolução Histórica</title>
+        <title>Dashboard Eleições</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
         <style>html,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}</style>
     </head>
 
@@ -18,7 +19,7 @@
         <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
         <div class="w3-main" style="margin-left:300px;margin-top:43px;">
              <header class="w3-container" style="padding-top:22px">
-                <h5><b>Evolução Histórica:</b></h5>
+                <h5><b>Dashboard Eleições:</b></h5>
             </header>
             <div class="w3-container">
                 <div class="loader-container" id="loader-container">
@@ -26,60 +27,47 @@
                     <p>Carregando...</p>
                     <p>Isto pode levar alguns minutos.</p>
                 </div>
-                <form action="/noauth/candidate-election/historic-evolution" method="post">                                                     
-                    <label for="eleicao1[abrangencia]">Abrangência:</label>
-                    <select id="eleicao1[abrangencia]" name="eleicao1[abrangencia]">
-                        <option selected>Selecione a Abrangência...</option>
-                        <% abrangencias.forEach(function(row) { %>
-                        <option value="<%= row.abrangencia %>"><%= row.abrangencia %></option>
-                        <% }); %>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="eleicao1[regiao]">Região:</label>
-                    <select id="eleicao1[regiao]" name="eleicao1[regiao]">
-                        <option selected>Selecione a Abrangência primeiro...</option>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="eleicao1[situacao_turno]">Situação Turno:</label>
-                    <select id="eleicao1[situacao_turno]" name="eleicao1[situacao_turno]">
-                        <option selected>Selecione a Situação do Turno...</option>
-                        <option value="todos">Todas</option>
-                        <% situacoes_turno.forEach(function(row) { %>
-                        <option value="<%= row.id %>"><%= row.nome %></option>
-                        <% }); %>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="eleicao1[cargo]">Cargo:</label>
-                    <select id="eleicao1[cargo]" name="eleicao1[cargo]">
-                        <option selected>Selecione o Cargo...</option>
-                        <option value="todos">Todos os cargos</option>                        
-                        <% cargos.forEach(function(row) { %>
-                        <option value="<%= row.id %>"><%= row.nome_cargo %></option>
-                        <% }); %>
-                    </select>                    
-                    <br>  
-                    <br> 
-
-                   
-                    <h6><b>Selecione a variável para comparação:</b></h6>                    
-                    <select id="variavel" name="variavel">
-                        <option selected>Selecione a variável...</option>
-                        <option value="genero">Gênero</option>   
-                        <option value="idade">Idade</option>
-                        <option value="partido">Partido</option>
-                        <option value="ocupacao">Ocupação</option>
-                        <option value="grau_instrucao">Grau de Instrução</option>                     
-                        <option value="reeleito">Reeleição</option>
-                        <option value="raca">Raça</option>
-                        
-                    </select>  
-                    <br>  
-                    <br>
-                    <button type="submit" class="w3-button w3-dark-grey">Buscar <i class="fa fa-arrow-right"></i></button>
-                </form>
+                <div class="w3-row-padding w3-margin-bottom">
+                <div class="w3-quarter">
+                <a href="/noauth/views/search-candidates-form" style="text-decoration: none;">
+                    <div class="w3-container w3-red w3-padding-16">
+                    <div class="w3-left"><i class="bi bi-person-fill custom-icon"></i></div>
+                    <div class="w3-right">
+                    <h3><%= candidatos %></h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Candidatos</h4>
+                </div>
+                </a>
+                </div>
+                <div class="w3-quarter">
+               <a href="/noauth/views/party-historic-evolution-form" style="text-decoration: none;">
+                 <div class="w3-container w3-blue w3-padding-16">
+                    <div class="w3-left"><i class="bi bi-share-fill custom-icon"></i></div>
+                    <div class="w3-right">
+                    <h3><%= partidos %></h3>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Partidos</h4>
+                </div>
+               </a>
+                </div>
+                <div class="w3-quarter">
+                    <a href="/noauth/views/results-year" style="text-decoration: none;">
+                        <div class="w3-container w3-teal w3-padding-16">
+                            <div class="w3-left"><i class="bi bi-collection-fill custom-icon"></i></div>
+                            <div class="w3-right">
+                            <h3><%= eleicoes %></h3>
+                            </div>
+                            <div class="w3-clear"></div>
+                            <h4>Eleições</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="mapadobrasil">
+                    <img src="/images/mapa-do-brasil.jpg" class="map-image">
+                </div>
+            
             </div>
         </div>
            
@@ -118,7 +106,6 @@
             regiaoSelect2.appendChild(option);
             });
         });
-       
         function showLoader() {
             document.getElementById("loader-container").style.display = "flex";
         }        
@@ -128,7 +115,6 @@
         document.querySelector("form").addEventListener("submit", function () {
             showLoader();
         });
-    
        
     </script>
 </html>

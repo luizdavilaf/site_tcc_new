@@ -12,4 +12,6 @@ router.get("/historic-evolution-form", viewsController.renderHistoricEvolution)
 
 router.get("/party-historic-evolution-form", viewsController.renderPartyHistoricEvolution)
 
+router.get("/dashboard", viewsController.renderDashboard)
+
 module.exports = router

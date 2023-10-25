@@ -127,7 +127,7 @@ const getFormDataForCompare = async (req, res) => {
             tituloVariavel = "Grau de Instrução"
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
-        } else if (req.body.variavel == "reeleicao") {
+        } else if (req.body.variavel == "reeleito") {
             tituloVariavel = "Reeleição"
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoReelection(parseInt(req.body.eleicao1.eleicao), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoReelection(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
@@ -203,7 +203,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
                 const eleicao = eleicoes[i];
                 promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
             }
-        } else if (req.body.variavel == "reeleicao") {
+        } else if (req.body.variavel == "reeleito") {
             tituloVariavel = "Reeleição"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];

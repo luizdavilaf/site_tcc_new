@@ -15,7 +15,15 @@ const findById = (id) => {
     })
 }
 
+const countAll = () => {
+    return Eleicao.count({
+        group: [Sequelize.col('ANO_ELEICAO')],
+        raw: true,
+    })
+}
+
 module.exports = {
+    countAll,
     findById,
     findAll
 }

@@ -21,6 +21,11 @@
                 <h5><b>Compare Eleições:</b></h5>
             </header>
             <div class="w3-container">
+                <div class="loader-container" id="loader-container">
+                    <div class="loader" id="loader"></div>
+                    <p>Carregando...</p>
+                    <p>Isto pode levar alguns minutos.</p>
+                </div>
                 <form action="/noauth/candidate-election/compare-elections" method="post">
                     <h6><b>Eleição 1:</b></h6>
                     <label for="eleicao1[eleicao]">Selecione a Eleição 1:</label>
@@ -121,7 +126,7 @@
                         <option value="partido">Partido</option>
                         <option value="ocupacao">Ocupação</option>
                         <option value="grau_instrucao">Grau de Instrução</option>                     
-                        <option value="reeleicao">Reeleição</option>
+                        <option value="reeleito">Reeleição</option>
                         <option value="raca">Raça</option>
                         
                     </select>  
@@ -166,6 +171,15 @@
             option.textContent = `${regiao.estado} - ${regiao.nome}`;
             regiaoSelect2.appendChild(option);
             });
+        });
+        function showLoader() {
+            document.getElementById("loader-container").style.display = "flex";
+        }        
+        function hideLoader() {
+            document.getElementById("loader-container").style.display = "none";
+        }        
+        document.querySelector("form").addEventListener("submit", function () {
+            showLoader();
         });
        
     </script>

@@ -21,6 +21,11 @@
                 <h5><b>Resultados por ano:</b></h5>
             </header>
             <div class="w3-container">
+                <div class="loader-container" id="loader-container">
+                    <div class="loader" id="loader"></div>
+                    <p>Carregando...</p>
+                    <p>Isto pode levar alguns minutos.</p>
+                </div>
                 <form action="/noauth/candidate-election/result-year" method="get">
                     <label for="eleicao">Eleição:</label>
                     <select id="eleicao" name="eleicao" required>
@@ -88,6 +93,15 @@
             option.textContent = `${regiao.estado} - ${regiao.nome}`;
             regiaoSelect.appendChild(option);
             });
+        });
+        function showLoader() {
+            document.getElementById("loader-container").style.display = "flex";
+        }        
+        function hideLoader() {
+            document.getElementById("loader-container").style.display = "none";
+        }        
+        document.querySelector("form").addEventListener("submit", function () {
+            showLoader();
         });
        
     </script>

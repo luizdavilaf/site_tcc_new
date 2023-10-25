@@ -12,6 +12,12 @@ const GrauDeInstrucao = require("../models/GrauDeInstrucao");
 const SituacaoCandidatura = require("../models/SituacaoCandidatura");
 const Partido = require("../models/Partido");
 
+const countAll = () => {
+    return Candidato.count({
+        raw: true,
+    })
+}
+
 const findByName = (name, pageSize, offset) => {
     //console.log(name)
     return Candidato.findAndCountAll({
@@ -74,6 +80,7 @@ const findById = (id) => {
 }
 
 module.exports = {
+    countAll,
     findById,
     findByName
 }

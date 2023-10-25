@@ -32,37 +32,31 @@ const getHistoryByVariable = async (req, res) => {
             tituloVariavel = "Idade"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByAge(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
-            }
-        } else if (req.body.variavel == "partido") {
-            tituloVariavel = "Partido"
-            for (let i = 0; i < eleicoes.length; i++) {
-                const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByParty(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+                promises.push(PartidoService.getPartidoEleicaoByAge(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
         } else if (req.body.variavel == "ocupacao") {
             tituloVariavel = "Ocupação"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByOcupation(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+                promises.push(PartidoService.getPartidoEleicaoByOcupation(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
         } else if (req.body.variavel == "grau_instrucao") {
             tituloVariavel = "Grau de Instrução"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByDegree(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+                promises.push(PartidoService.getPartidoEleicaoByDegree(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
-        } else if (req.body.variavel == "reeleicao") {
+        } else if (req.body.variavel == "reeleito") {
             tituloVariavel = "Reeleição"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoReelection(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+                promises.push(PartidoService.getPartidoEleicaoReelection(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
         } else if (req.body.variavel == "raca") {
             tituloVariavel = "Raça"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+                promises.push(PartidoService.getPartidoEleicaoByRace(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
         }
 
@@ -70,6 +64,7 @@ const getHistoryByVariable = async (req, res) => {
         const setVariaveis = new Set()
 
         const data = await Promise.all(promises)
+        //console.log(data)
         const filteredElections = data.filter(sub => sub.length > 0) //cada posicao é uma eleicao        
         for (let i = 0; i < filteredElections.length; i++) {
             const eleicao = filteredElections[i];
