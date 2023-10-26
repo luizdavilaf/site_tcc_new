@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Evolução Histórica</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1">     
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -30,7 +31,7 @@
                 const data = <%- JSON.stringify(chartData) %>;
 
                 const config = {
-                    type: 'line',
+                    type: 'bar',
                     data: data,
                     options: {
                         responsive: true,
@@ -41,6 +42,20 @@
                             title: {
                                 display: true,
                                 text: '<%= `${tituloVariavel}`%>'
+                            },
+                            datalabels: {
+                                color: 'white', // Cor dos números
+                                anchor: 'end', // Posição do número (pode ser 'start', 'center' ou 'end')
+                                align: 'end' // Alinhamento do número (pode ser 'start', 'center' ou 'end')
+                            }
+                        },
+                        scales: {
+                            x: {
+                                stacked: true,
+                            },
+                            y: {
+                                beginAtZero: true,
+                                stacked: true
                             }
                         }
                     },
