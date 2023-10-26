@@ -1,12 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const dbConfig  = require("./dbconnection")
 
 
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: __dirname + '/database.db',
-    logging: false,
-});
+const sequelize = new Sequelize(dbConfig.development);
 
 sequelize.authenticate()
     .then(() => {

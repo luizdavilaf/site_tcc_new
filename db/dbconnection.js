@@ -1,10 +1,10 @@
-const sqlite3 = require('sqlite3');
-
-// if (process.env.NODE_ENV == 'dev') sqlite3.verbose();
-sqlite3.verbose();
-
-const path = __dirname + '/database.db';
-console.log({ path })
-const db = new sqlite3.Database(path);
-
-module.exports = db;
+module.exports = {
+    development: {
+        username: 'postgres',
+        password: 'postgres',
+        database: 'eleicao_new',
+        host: '127.0.0.1',
+        dialect: 'postgres',
+    },
+    // Adicione configurações para produção e teste, se necessário.
+};
