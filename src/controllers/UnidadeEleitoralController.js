@@ -7,7 +7,8 @@ const getUnitiesByAbrangency = async (req, res) => {
         const unidades_eleitorais = await UnidadeEleitoralService.findUnitiesByAbrangengy(abrangency)
         return res.json({ success: true, data: unidades_eleitorais })
     } catch (error) {
-        return res.json({ success: false, message: error.message })
+        res.render('error.ejs');
+        //return res.json({ success: false, message: error.message })
 
     }
 }

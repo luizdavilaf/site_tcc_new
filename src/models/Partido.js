@@ -1,9 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class Partido extends Model { }
 
-Partido.init({
+const Partido = sequelize.define('partido', {    
     sigla: {
         field: "SG_PARTIDO",
         type: DataTypes.STRING,

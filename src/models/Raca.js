@@ -1,9 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class Raca extends Model { }
-
-Raca.init({
+const Raca = sequelize.define('raca', {    
     nome: {
         field: "DS_COR_RACA",
         type: DataTypes.STRING,

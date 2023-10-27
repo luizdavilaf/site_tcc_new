@@ -3,9 +3,7 @@ const sequelize = require("../../db/sequelize-connection")
 
 
 
-class Candidato extends Model { }
-
-Candidato.init({
+const Candidato = sequelize.define('candidato', {     
     nome: {
         type: DataTypes.STRING,
         comment: 'Nome do candidato',

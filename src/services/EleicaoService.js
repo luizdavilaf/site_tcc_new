@@ -4,7 +4,7 @@ const { Sequelize } = require("sequelize");
 const findAll = () => {
     return Eleicao.findAll({
         raw: true,
-        order: [['ANO_ELEICAO', 'ASC']]
+        order: [['ANO_ELEICAO', 'ASC'], ['NR_TURNO', 'ASC']]
     })
 }
 

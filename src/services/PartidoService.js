@@ -20,8 +20,8 @@ const findAll = () => {
 
 const getPartidoEleicaoByGender = (partidoId, eleicaoId) => {
     return CandidatoEleicao.findAll({
-        where: { 
-            PartidoId: partidoId, 
+        where: {
+            PartidoId: partidoId,
             EleicaoId: eleicaoId
         },
         include:
@@ -29,7 +29,7 @@ const getPartidoEleicaoByGender = (partidoId, eleicaoId) => {
                 {
                     model: Eleicao,
                     attributes: [],
-                },               
+                },
                 {
                     model: Candidato,
                     attributes: [],
@@ -40,13 +40,17 @@ const getPartidoEleicaoByGender = (partidoId, eleicaoId) => {
                 }
             ],
         attributes: [
-            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
-            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],                    
-            [Sequelize.col('Candidato->Genero.DS_GENERO'), 'genero'],
-            [Sequelize.fn('COUNT', Sequelize.col('Candidato.id')), 'totalCandidatos'],
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('candidato->genero.DS_GENERO'), 'genero'],
+            [Sequelize.fn('COUNT', Sequelize.col('candidato.id')), 'totalCandidatos'],
         ],
-        //group: [Sequelize.col('Candidato->Genero.DS_GENERO')],        
-        group: ['genero'],
+        //group: [Sequelize.col('candidato->Genero.DS_GENERO')],        
+        group: [
+            Sequelize.col('eleicao.ANO_ELEICAO'),
+            Sequelize.col('eleicao.NR_TURNO'),
+            Sequelize.col('candidato->genero.DS_GENERO')
+        ],
         raw: true,
         subQuery: false,
     })
@@ -59,19 +63,23 @@ const getPartidoEleicaoByAge = (partidoId, eleicaoId) => {
             EleicaoId: eleicaoId
         },
         include:
-            [                
+            [
                 {
                     model: Eleicao,
                     attributes: [],
                 },
             ],
         attributes: [
-            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
-            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],           
-            [Sequelize.col('CandidatoEleicao.NR_IDADE_DATA_POSSE'), 'idade'],
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('candidatoEleicao.NR_IDADE_DATA_POSSE'), 'idade'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
-        group: [Sequelize.col('CandidatoEleicao.NR_IDADE_DATA_POSSE')],
+        group: [
+            Sequelize.col('candidatoEleicao.NR_IDADE_DATA_POSSE'),
+            Sequelize.col('eleicao.ANO_ELEICAO'),
+            Sequelize.col('eleicao.NR_TURNO')
+        ],
         raw: true,
     })
 }
@@ -83,7 +91,7 @@ const getPartidoEleicaoByOcupation = (partidoId, eleicaoId) => {
             EleicaoId: eleicaoId
         },
         include:
-            [                
+            [
                 {
                     model: Eleicao,
                     attributes: [],
@@ -94,12 +102,16 @@ const getPartidoEleicaoByOcupation = (partidoId, eleicaoId) => {
                 },
             ],
         attributes: [
-            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
-            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],           
-            [Sequelize.col('Ocupacao.DS_OCUPACAO'), 'ocupacao'],
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('ocupacao.DS_OCUPACAO'), 'ocupacao'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
-        group: [Sequelize.col('Ocupacao.DS_OCUPACAO')],
+        group: [
+            Sequelize.col('ocupacao.DS_OCUPACAO'),
+            Sequelize.col('eleicao.ANO_ELEICAO'),
+            Sequelize.col('eleicao.NR_TURNO'),
+        ],
         raw: true,
     })
 }
@@ -111,7 +123,7 @@ const getPartidoEleicaoByDegree = (partidoId, eleicaoId) => {
             EleicaoId: eleicaoId
         },
         include:
-            [              
+            [
                 {
                     model: Eleicao,
                     attributes: [],
@@ -122,12 +134,15 @@ const getPartidoEleicaoByDegree = (partidoId, eleicaoId) => {
                 }
             ],
         attributes: [
-            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
-            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],            
-            [Sequelize.col('GrauDeInstrucao.DS_GRAU_INSTRUCAO'), 'grau_instrucao'],
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('grauDeInstrucao.DS_GRAU_INSTRUCAO'), 'grau_instrucao'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
-        group: [Sequelize.col('GrauDeInstrucao.DS_GRAU_INSTRUCAO')],
+        group: [
+            Sequelize.col('eleicao.ANO_ELEICAO'),
+            Sequelize.col('eleicao.NR_TURNO'),
+            Sequelize.col('grauDeInstrucao.DS_GRAU_INSTRUCAO')],
         raw: true,
 
     })
@@ -140,19 +155,22 @@ const getPartidoEleicaoReelection = (partidoId, eleicaoId) => {
             EleicaoId: eleicaoId
         },
         include:
-            [                
+            [
                 {
                     model: Eleicao,
                     attributes: [],
                 },
             ],
         attributes: [
-            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
-            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],          
-            [Sequelize.col('CandidatoEleicao.ST_REELEICAO'), 'reeleito'],
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('candidatoEleicao.ST_REELEICAO'), 'reeleito'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
-        group: [Sequelize.col('CandidatoEleicao.ST_REELEICAO')],
+        group: [
+            Sequelize.col('eleicao.ANO_ELEICAO'),
+            Sequelize.col('eleicao.NR_TURNO'),
+            Sequelize.col('candidatoEleicao.ST_REELEICAO')],
         raw: true,
     }).then(results => {
         results.forEach(result => {
@@ -169,7 +187,7 @@ const getPartidoEleicaoByRace = (partidoId, eleicaoId) => {
             EleicaoId: eleicaoId
         },
         include:
-            [                
+            [
                 {
                     model: Eleicao,
                     attributes: [],
@@ -183,19 +201,22 @@ const getPartidoEleicaoByRace = (partidoId, eleicaoId) => {
                     }
                 }
             ],
-        attributes: [          
-            [Sequelize.col('Eleicao.ANO_ELEICAO'), 'anoEleicao'],
-            [Sequelize.col('Eleicao.NR_TURNO'), 'turno'],           
-            [Sequelize.fn('COALESCE', Sequelize.col('Candidato->Raca.DS_COR_RACA'), 'Sem dados'), 'raca'],
-            [Sequelize.fn('COUNT', Sequelize.col('Candidato.id')), 'totalCandidatos'],
+        attributes: [
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.fn('COALESCE', Sequelize.col('candidato->raca.DS_COR_RACA'), 'Sem dados'), 'raca'],
+            [Sequelize.fn('COUNT', Sequelize.col('candidato.id')), 'totalCandidatos'],
         ],
-        group: [Sequelize.col('Candidato->Raca.DS_COR_RACA')],
+        group: [
+            Sequelize.col('eleicao.ANO_ELEICAO'),
+            Sequelize.col('eleicao.NR_TURNO'),
+            Sequelize.col('candidato->raca.DS_COR_RACA')],
         raw: true,
         subQuery: false,
     })
 }
 
-const findById = (partidoId)=>{
+const findById = (partidoId) => {
     return Partido.findOne({
         where: {
             id: partidoId

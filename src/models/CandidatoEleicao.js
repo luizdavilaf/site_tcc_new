@@ -1,10 +1,9 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class CandidatoEleicao extends Model { }
 
-CandidatoEleicao.init({
-    // Campos específicos da tabela CandidatoEleicao           
+
+const CandidatoEleicao = sequelize.define('candidatoEleicao', {        
     situacao_reeleicao: {
         field: "ST_REELEICAO",
         type: DataTypes.BOOLEAN,

@@ -1,10 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class SituacaoCandidatura extends Model { }
-
-SituacaoCandidatura.init({
-    // Campos específicos da tabela SituacaoCandidatura        
+const SituacaoCandidatura = sequelize.define('situacaoCandidatura', {     
     nome: {
         field: "DS_SITUACAO_CANDIDATURA",
         type: DataTypes.STRING,

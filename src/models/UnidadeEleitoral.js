@@ -1,10 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class UnidadeEleitoral extends Model { }
-
-UnidadeEleitoral.init({
-    // Campos específicos da tabela UnidadeEleitoral        
+const UnidadeEleitoral = sequelize.define('unidadeEleitoral', {       
     sigla: {
         field: "SG_UE",
         type: DataTypes.STRING,

@@ -1,4 +1,4 @@
-const Candidato = require("../models/Candidato")
+const  Candidato  = require("../models/Candidato")
 const { Sequelize } = require("sequelize");
 const CandidatoEleicao = require("../models/CandidatoEleicao");
 const Raca = require("../models/Raca");
@@ -23,8 +23,10 @@ const findByName = (name, pageSize, offset) => {
     return Candidato.findAndCountAll({
         where: {
             nome: {
-                [Sequelize.Op.like]: `%${name}%`
-            } },
+                [Sequelize.Op.iLike]: `%${name}%`
+            } 
+        },    
+        attributes: ['nome', 'id'],
         limit: pageSize,
         offset: offset,
         raw: true, 

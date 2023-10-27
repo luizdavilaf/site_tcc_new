@@ -2,9 +2,7 @@ const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
 
-class Eleicao extends Model { }
-
-Eleicao.init({
+const Eleicao = sequelize.define('eleicao', {  
     ano_eleicao: {
         field: "ANO_ELEICAO",
         type: DataTypes.INTEGER,

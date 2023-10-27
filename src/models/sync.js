@@ -17,34 +17,56 @@ const sequelize = require("../../db/sequelize-connection")
 Genero.hasMany(Candidato);
 Raca.hasMany(Candidato);
 
-Candidato.belongsTo(Genero);
-Candidato.belongsTo(Raca);
+Candidato.belongsTo(Genero, {foreignKey: 'GeneroId'
+})
+Candidato.belongsTo(Raca, {
+    foreignKey: 'RacaId'
+});
 
-CandidatoEleicao.belongsTo(Candidato);
+CandidatoEleicao.belongsTo(Candidato, {
+    foreignKey: 'CandidatoId'
+});
 Candidato.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(Eleicao);
+CandidatoEleicao.belongsTo(Eleicao, {
+    foreignKey: 'EleicaoId'
+});
 Eleicao.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(Ocupacao);
+CandidatoEleicao.belongsTo(Ocupacao, {
+    foreignKey: 'OcupacaoId'
+});
 Ocupacao.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(Cargo);
+CandidatoEleicao.belongsTo(Cargo, {
+    foreignKey: 'CargoId'
+}
+    );
 Cargo.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(GrauDeInstrucao);
+CandidatoEleicao.belongsTo(GrauDeInstrucao, {
+    foreignKey: 'GrauDeInstrucaoId'
+});
 GrauDeInstrucao.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(SituacaoTurno);
+CandidatoEleicao.belongsTo(SituacaoTurno, {
+    foreignKey: 'SituacaoTurnoId'
+});
 SituacaoTurno.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(UnidadeEleitoral);
+CandidatoEleicao.belongsTo(UnidadeEleitoral, {
+    foreignKey: 'UnidadeEleitoralId'
+});
 UnidadeEleitoral.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(SituacaoCandidatura);
+CandidatoEleicao.belongsTo(SituacaoCandidatura, {
+    foreignKey: 'SituacaoCandidaturaId'
+});
 SituacaoCandidatura.hasMany(CandidatoEleicao);
 
-CandidatoEleicao.belongsTo(Partido);
+CandidatoEleicao.belongsTo(Partido, {
+    foreignKey: 'PartidoId'
+});
 Partido.hasMany(CandidatoEleicao);
 
 

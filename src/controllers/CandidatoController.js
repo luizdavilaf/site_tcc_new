@@ -20,7 +20,9 @@ const getByName = async (req, res) => {
         //console.log(candidatos)
         return res.json({ success: true, data: candidatos })
     } catch (error) {
-        return res.json({success: false, message: error.message, data: []})
+        console.log(error)
+        //return res.json({success: false, message: error.message, data: []})
+        res.render('error.ejs');
 
     }
 }
@@ -98,7 +100,8 @@ const getById = async (req, res) => {
         
     } catch (error) {
         console.log(error)
-        return res.json({ success: false, message: error.message, data: [] })
+        res.render('error.ejs');
+        //return res.json({ success: false, message: error.message, data: [] })
 
     }
 }

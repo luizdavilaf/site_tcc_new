@@ -1,9 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class Cargo extends Model { }
-
-Cargo.init({
+const Cargo = sequelize.define('cargo', {    
     nome_cargo: {
         type: DataTypes.STRING,
         allowNull: false,

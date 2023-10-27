@@ -1,10 +1,8 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-class Genero extends Model { }
 
-Genero.init({
-    // Campos específicos da tabela Genero             
+const Genero = sequelize.define('genero', {            
     nome_genero: {
         field: "DS_GENERO",
         type: DataTypes.STRING,

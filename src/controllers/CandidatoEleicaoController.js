@@ -88,7 +88,8 @@ const getFormData = async (req, res) => {
         res.render('results-year-charts.ejs', { chartData, dataGeral });
 
     } catch (error) {
-        console.log(error)
+        //console.log(error)
+        res.render('error.ejs');
     }
 }
 
@@ -137,7 +138,8 @@ const getFormDataForCompare = async (req, res) => {
             promises.push(CandidatoEleicaoService.getCandidatoEleicaoByRace(parseInt(req.body.eleicao2.eleicao), parseInt(req.body.eleicao2.regiao), req.body.eleicao2.situacao_turno, req.body.eleicao2.cargo))
         }
 
-        const data = await Promise.all(promises)
+        const data = await Promise.all(promises)   
+        //console.log(data)     
         const chartData = data.map(eleicao => object = {
             id: req.body.variavel,
             categoria: tituloVariavel,
@@ -146,13 +148,14 @@ const getFormDataForCompare = async (req, res) => {
             eleicao: `Eleição de ${eleicao[0].anoEleicao} - ${eleicao[0].turno} Turno`,
             regiao: `${eleicao[0].estado} - ${eleicao[0].nome}`,
         })
-        console.log(chartData)
+        //console.log(chartData)
         res.render('compare-regions-charts.ejs', { chartData });
 
 
 
     } catch (error) {
         console.log(error)
+        res.render('error.ejs');
     }
 }
 
@@ -267,6 +270,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
 
     } catch (error) {
         console.log(error)
+        res.render('error.ejs');
     }
 }
 module.exports = {
