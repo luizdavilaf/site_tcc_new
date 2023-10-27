@@ -14,8 +14,12 @@ const SituacaoCandidatura = require('./SituacaoCandidatura');
 const SituacaoTurno = require('./SituacaoTurno');
 const sequelize = require("../../db/sequelize-connection")
 
-Genero.hasMany(Candidato);
-Raca.hasMany(Candidato);
+Genero.hasMany(Candidato, {
+    foreignKey: 'GeneroId',
+});
+Raca.hasMany(Candidato, {
+    foreignKey: 'RacaId',
+});
 
 Candidato.belongsTo(Genero, {foreignKey: 'GeneroId'
 })
@@ -24,50 +28,68 @@ Candidato.belongsTo(Raca, {
 });
 
 CandidatoEleicao.belongsTo(Candidato, {
-    foreignKey: 'CandidatoId'
+    foreignKey: 'CandidatoId',   
 });
-Candidato.hasMany(CandidatoEleicao);
+Candidato.hasMany(CandidatoEleicao, {
+    foreignKey: 'CandidatoId',
+});
 
 CandidatoEleicao.belongsTo(Eleicao, {
     foreignKey: 'EleicaoId'
 });
-Eleicao.hasMany(CandidatoEleicao);
+Eleicao.hasMany(CandidatoEleicao, {
+    foreignKey: 'EleicaoId'
+});
 
 CandidatoEleicao.belongsTo(Ocupacao, {
     foreignKey: 'OcupacaoId'
 });
-Ocupacao.hasMany(CandidatoEleicao);
+Ocupacao.hasMany(CandidatoEleicao, {
+    foreignKey: 'OcupacaoId'
+});
 
 CandidatoEleicao.belongsTo(Cargo, {
     foreignKey: 'CargoId'
 }
     );
-Cargo.hasMany(CandidatoEleicao);
+Cargo.hasMany(CandidatoEleicao, {
+    foreignKey: 'CargoId'
+});
 
 CandidatoEleicao.belongsTo(GrauDeInstrucao, {
     foreignKey: 'GrauDeInstrucaoId'
 });
-GrauDeInstrucao.hasMany(CandidatoEleicao);
+GrauDeInstrucao.hasMany(CandidatoEleicao, {
+    foreignKey: 'GrauDeInstrucaoId'
+});
 
 CandidatoEleicao.belongsTo(SituacaoTurno, {
     foreignKey: 'SituacaoTurnoId'
 });
-SituacaoTurno.hasMany(CandidatoEleicao);
+SituacaoTurno.hasMany(CandidatoEleicao, {
+    foreignKey: 'SituacaoTurnoId'
+});
 
 CandidatoEleicao.belongsTo(UnidadeEleitoral, {
     foreignKey: 'UnidadeEleitoralId'
 });
-UnidadeEleitoral.hasMany(CandidatoEleicao);
+UnidadeEleitoral.hasMany(CandidatoEleicao, {
+    foreignKey: 'UnidadeEleitoralId'
+});
 
 CandidatoEleicao.belongsTo(SituacaoCandidatura, {
     foreignKey: 'SituacaoCandidaturaId'
 });
-SituacaoCandidatura.hasMany(CandidatoEleicao);
+SituacaoCandidatura.hasMany(CandidatoEleicao, {
+    foreignKey: 'SituacaoCandidaturaId'
+});
 
 CandidatoEleicao.belongsTo(Partido, {
     foreignKey: 'PartidoId'
 });
-Partido.hasMany(CandidatoEleicao);
+Partido.hasMany(CandidatoEleicao, {
+    foreignKey: 'PartidoId'
+});
 
 
 

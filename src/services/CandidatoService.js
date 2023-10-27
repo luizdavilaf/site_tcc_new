@@ -36,11 +36,10 @@ const findByName = (name, pageSize, offset) => {
 
 const findById = (id) => {
     return Candidato.findOne({
-        where: {id},        
+        where: {id},               
         include: [
             {
-                model: CandidatoEleicao,
-                raw: true,
+                model: CandidatoEleicao,                                                                                              
                 include:
                     [
                         {
@@ -77,7 +76,7 @@ const findById = (id) => {
                 model: Genero,
                 raw: true,
             }
-        ],              
+        ],                      
     })
 }
 

@@ -30,14 +30,16 @@ const getByName = async (req, res) => {
 const getById = async (req, res) => {
     try {
         //console.log(req.query.candidatoid)
-        const data = await CandidatoService.findById(req.query.candidatoid)
+        const data2 = await CandidatoService.findById(req.query.candidatoid)        
+        const data = JSON.parse(JSON.stringify(data2))
+        //console.log(data)
         const candidato = {
             nome: data.nome,
             municipio_nascimento: data.municipio_nascimento,
             data_nascimento: moment(data.data_nascimento).format("DD-MM-YYYY"),
             idade: `${moment().diff(moment(data.data_nascimento), 'years')} anos`,
-            raca: data.Raca.nome,
-            genero: data.Genero.nome_genero,
+            raca: data.raca.nome,
+            genero: data.genero.nome_genero,
             local_nascimento: `${data.municipio_nascimento} - ${data.estado_nascimento}`,
             grau_de_instrucao: "a calcular",
             fidelidade_partidaria: "a calcular"
@@ -48,28 +50,29 @@ const getById = async (req, res) => {
         const partidosDiferentes = new Set();
         let primeiroAnoParticipacao
         let ultimoAnoParticipacao 
-        const eleicoes = data.CandidatoEleicaos.map(eleicao => {
-            anosDiferentes.add(eleicao.Eleicao.dataValues.ano_eleicao);
-            partidosDiferentes.add(eleicao.Partido.dataValues.sigla)
-            if (!primeiroAnoParticipacao || eleicao.Eleicao.dataValues.ano_eleicao < primeiroAnoParticipacao) {
-                primeiroAnoParticipacao = eleicao.Eleicao.dataValues.ano_eleicao;
+        const eleicoes = data.candidatoEleicaos.map(eleicao => {
+            //console.log(eleicao)
+            anosDiferentes.add(eleicao.eleicao.ano_eleicao);
+            partidosDiferentes.add(eleicao.partido.sigla)
+            if (!primeiroAnoParticipacao || eleicao.eleicao.ano_eleicao < primeiroAnoParticipacao) {
+                primeiroAnoParticipacao = eleicao.eleicao.ano_eleicao;
             }
-            if (!ultimoAnoParticipacao || eleicao.Eleicao.dataValues.ano_eleicao > ultimoAnoParticipacao) {
-                ultimoAnoParticipacao = eleicao.Eleicao.dataValues.ano_eleicao;
+            if (!ultimoAnoParticipacao || eleicao.eleicao.ano_eleicao > ultimoAnoParticipacao) {
+                ultimoAnoParticipacao = eleicao.eleicao.ano_eleicao;
             }
             const despesa_campanha = isNaN(eleicao.despesa_campanha) || eleicao.despesa_campanha < 0 ? "Não informado" : new Intl.NumberFormat('pt-BR', {style: 'currency',currency: 'BRL',}).format(eleicao.despesa_campanha)
             
             
            return {
-               partido: eleicao.Partido.dataValues.sigla,
-               eleicao: `${eleicao.Eleicao.dataValues.turno} turno - ${eleicao.Eleicao.dataValues.ano_eleicao}`,
-               cargo: eleicao.Cargo.dataValues.nome_cargo,
-               situacao_turno: eleicao.SituacaoTurno.dataValues.nome,
-               unidade_eleitoral: `${eleicao.UnidadeEleitoral.dataValues.sigla} - ${eleicao.UnidadeEleitoral.dataValues.nome}`,
-               ocupacao: eleicao.Ocupacao.dataValues.nome_ocupacao,
-               grau_de_instrucao: eleicao.GrauDeInstrucao.dataValues.nome_instrucao,
-               situacao_candidatura: eleicao.SituacaoCandidatura.dataValues.nome,
-               ano_eleicao: eleicao.Eleicao.dataValues.ano_eleicao,
+               partido: eleicao.partido.sigla,
+               eleicao: `${eleicao.eleicao.turno} turno - ${eleicao.eleicao.ano_eleicao}`,
+               cargo: eleicao.cargo.nome_cargo,
+               situacao_turno: eleicao.situacaoTurno.nome,
+               unidade_eleitoral: `${eleicao.unidadeEleitoral.sigla} - ${eleicao.unidadeEleitoral.nome}`,
+               ocupacao: eleicao.ocupacao.nome_ocupacao,
+               grau_de_instrucao: eleicao.grauDeInstrucao.nome_instrucao,
+               situacao_candidatura: eleicao.situacaoCandidatura.nome,
+               ano_eleicao: eleicao.eleicao.ano_eleicao,
                situacao_reeleicao: eleicao.situacao_reeleicao ? "SIM" : "NÃO",
                idade_data_da_posse: eleicao.idade_data_da_posse,
                coligacao: eleicao.coligacao,

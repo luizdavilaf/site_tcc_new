@@ -57,6 +57,6 @@ const CandidatoEleicao = sequelize.define('candidatoEleicao', {
 });
 
 // Defina as associações
-
+CandidatoEleicao.sync();
 
 module.exports = CandidatoEleicao;
