@@ -28,7 +28,9 @@ const getCandidatoEleicaoByGender = (eleicao, regiao, situacao_turno, cargo) => 
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -85,7 +87,9 @@ const getCandidatoEleicaoByDegree = (eleicao, regiao, situacao_turno, cargo) => 
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -116,7 +120,7 @@ const getCandidatoEleicaoByDegree = (eleicao, regiao, situacao_turno, cargo) => 
             Sequelize.col('unidadeEleitoral.SG_UF'),
             Sequelize.col('unidadeEleitoral.NM_UE'),
             Sequelize.col('grauDeInstrucao.DS_GRAU_INSTRUCAO')],
-        raw: true,        
+        raw: true,
 
     })
 }
@@ -137,7 +141,9 @@ const getCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -155,16 +161,29 @@ const getCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
             [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
             [Sequelize.col('unidadeEleitoral.SG_UF'), 'estado'],
             [Sequelize.col('unidadeEleitoral.NM_UE'), 'nome'],
-            [Sequelize.col('candidatoEleicao.NR_IDADE_DATA_POSSE'), 'idade'],
+            [Sequelize.literal(`
+                CASE
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 18 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 30 THEN '18-30 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 31 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 40 THEN '31-40 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 41 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 50 THEN '41-50 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 51 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 60 THEN '51-60 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 61 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 70 THEN '61-70 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 71 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 80 THEN '71-80 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 81 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 90 THEN '81-90 anos'
+                WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 91 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 100 THEN '91-100 anos'
+                ELSE 'Idade inválida'
+                END
+            `), 'idade'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
         group: [
-            Sequelize.col('eleicao.ANO_ELEICAO'),
-            Sequelize.col('eleicao.NR_TURNO'),
-            Sequelize.col('unidadeEleitoral.SG_UF'),
-            Sequelize.col('unidadeEleitoral.NM_UE'),
-            Sequelize.col('candidatoEleicao.NR_IDADE_DATA_POSSE')],
-
+            'anoEleicao',
+            'turno',
+            'estado',
+            'nome',
+            'idade'
+        ],
+        order: [['idade', 'ASC']],
         raw: true,
 
     })
@@ -187,7 +206,9 @@ const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) 
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -238,7 +259,9 @@ const getCandidatoEleicaoByParty = (eleicao, regiao, situacao_turno, cargo) => {
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -289,7 +312,9 @@ const getCandidatoEleicaoByRace = (eleicao, regiao, situacao_turno, cargo) => {
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -346,7 +371,9 @@ const getCandidatoEleicaoReelection = (eleicao, regiao, situacao_turno, cargo) =
                 {
                     model: SituacaoTurno,
                     attributes: [],
-                    where: situacao_turno == "todos" ? {} : { id: situacao_turno }
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
                 }
                 ,
                 {
@@ -386,7 +413,7 @@ module.exports = {
     getCandidatoEleicaoReelection,
     getCandidatoEleicaoByRace,
     getCandidatoEleicaoByGender,
-    getCandidatoEleicaoByDegree,    
+    getCandidatoEleicaoByDegree,
     getCandidatoEleicaoByAge,
     getCandidatoEleicaoByOcupation,
     getCandidatoEleicaoByParty,

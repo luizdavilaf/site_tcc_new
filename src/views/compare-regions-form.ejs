@@ -56,6 +56,7 @@
                     <select id="eleicao1[situacao_turno]" name="eleicao1[situacao_turno]">
                         <option selected>Selecione a Situação do Turno...</option>
                         <option value="todos">Todas</option>
+                        <option value="todosEleitos">Candidatos Eleitos por qualquer tipo</option>
                         <% situacoes_turno.forEach(function(row) { %>
                         <option value="<%= row.id %>"><%= row.nome %></option>
                         <% }); %>
@@ -102,6 +103,7 @@
                     <select id="eleicao2[situacao_turno]" name="eleicao2[situacao_turno]">
                         <option selected>Selecione a Situação do Turno...</option>
                         <option value="todos">Todas</option>
+                        <option value="todosEleitos">Candidatos Eleitos por qualquer tipo</option>
                         <% situacoes_turno.forEach(function(row) { %>
                         <option value="<%= row.id %>"><%= row.nome %></option>
                         <% }); %>
@@ -132,6 +134,7 @@
                     </select>  
                     <br>  
                     <br>
+                    <button class="w3-button w3-dark-grey" onclick="voltar()"><i class="fa fa-arrow-left"></i> Voltar</button>
                     <button type="submit" class="w3-button w3-dark-grey">Buscar <i class="fa fa-arrow-right"></i></button>
                 </form>
             </div>
@@ -148,6 +151,13 @@
             const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
             const data = await response.json()
             regiaoSelect.innerHTML = '';
+            const noOption = document.createElement('option');            
+            noOption.textContent = "Selecione a região"
+            regiaoSelect.appendChild(noOption);
+            const firstOption = document.createElement('option');
+            firstOption.value = "digitarRegiao"
+            firstOption.textContent = "Digite a região"
+            regiaoSelect.appendChild(firstOption);
             data.data.forEach(regiao => {
             const option = document.createElement('option');
             option.value = regiao.id;
@@ -165,6 +175,13 @@
             const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
             const data = await response.json()
             regiaoSelect2.innerHTML = '';
+             const noOption = document.createElement('option');            
+            noOption.textContent = "Selecione a região"
+            regiaoSelect2.appendChild(noOption);
+            const firstOption = document.createElement('option');
+            firstOption.value = "digitarRegiao"
+            firstOption.textContent = "Digite a região"
+            regiaoSelect2.appendChild(firstOption);
             data.data.forEach(regiao => {
             const option = document.createElement('option');
             option.value = regiao.id;
@@ -181,6 +198,117 @@
         document.querySelector("form").addEventListener("submit", function () {
             showLoader();
         });
+        regiaoSelect.addEventListener("change", function() {            
+            const selectedValue = regiaoSelect.value;
+
+            if (selectedValue === "digitarRegiao") {
+            // Abrir uma modal ou janela para inserir o texto de pesquisa
+            // Após a busca, atualize o select com as opções correspondentes
+            // Por exemplo:
+                const regiaoDigitada = prompt("Digite a região");
+                if (regiaoDigitada !== null) {
+                    const textoFiltro = regiaoDigitada.toLowerCase();
+                    const novasOpcoes = [];
+
+                    for (let i = 0; i < regiaoSelect.options.length; i++) {
+                        const option = regiaoSelect.options[i];
+                        const optionTexto = option.textContent.toLowerCase();
+
+                        if (optionTexto.includes(textoFiltro)) {
+                            novasOpcoes.push(option.cloneNode(true));
+                        }
+                    }
+
+                    // Remova todas as opções existentes no select.
+                    while (regiaoSelect.firstChild) {
+                        regiaoSelect.removeChild(regiaoSelect.firstChild);
+                    }
+
+                    // Adicione as novas opções que correspondem ao filtro.
+                    novasOpcoes.forEach(function(novaOpcao) {
+                        regiaoSelect.appendChild(novaOpcao);
+                    });
+                }
+            }
+        });
+
+        
+        // Esta é uma função para filtrar as opções com base no texto do option.
+        function filtrarOpcoes(textoFiltro) {
+        // Converta o texto de filtro para minúsculas para comparação sem distinção entre maiúsculas e minúsculas.
+            textoFiltro = textoFiltro.toLowerCase();
+
+            // Percorra todas as opções e verifique se o texto do option contém o texto de filtro.
+            for (let i = 0; i < regiaoSelect.options.length; i++) {
+                const option = regiaoSelect.options[i];
+                const optionTexto = option.textContent.toLowerCase();
+
+                // Verifique se o texto de filtro está contido no texto do option.
+                if (optionTexto.includes(textoFiltro)) {
+                option.style.display = "block"; // Mostra a opção
+                } else {
+                option.style.display = "none"; // Oculta a opção
+                }
+            }
+        }
+
+        regiaoSelect2.addEventListener("change", function() {            
+            const selectedValue = regiaoSelect2.value;
+
+            if (selectedValue === "digitarRegiao") {
+            // Abrir uma modal ou janela para inserir o texto de pesquisa
+            // Após a busca, atualize o select com as opções correspondentes
+            // Por exemplo:
+                const regiaoDigitada = prompt("Digite a região");
+                if (regiaoDigitada !== null) {
+                    const textoFiltro = regiaoDigitada.toLowerCase();
+                    const novasOpcoes = [];
+
+                    for (let i = 0; i < regiaoSelect2.options.length; i++) {
+                        const option = regiaoSelect2.options[i];
+                        const optionTexto = option.textContent.toLowerCase();
+
+                        if (optionTexto.includes(textoFiltro)) {
+                            novasOpcoes.push(option.cloneNode(true));
+                        }
+                    }
+
+                    // Remova todas as opções existentes no select.
+                    while (regiaoSelect2.firstChild) {
+                        regiaoSelect2.removeChild(regiaoSelect2.firstChild);
+                    }
+
+                    // Adicione as novas opções que correspondem ao filtro.
+                    novasOpcoes.forEach(function(novaOpcao) {
+                        regiaoSelect2.appendChild(novaOpcao);
+                    });
+                }
+            }
+        });
+
+        
+        // Esta é uma função para filtrar as opções com base no texto do option.
+        function filtrarOpcoes(textoFiltro) {
+        // Converta o texto de filtro para minúsculas para comparação sem distinção entre maiúsculas e minúsculas.
+            textoFiltro = textoFiltro.toLowerCase();
+
+            // Percorra todas as opções e verifique se o texto do option contém o texto de filtro.
+            for (let i = 0; i < regiaoSelect.options.length; i++) {
+                const option = regiaoSelect.options[i];
+                const optionTexto = option.textContent.toLowerCase();
+
+                // Verifique se o texto de filtro está contido no texto do option.
+                if (optionTexto.includes(textoFiltro)) {
+                option.style.display = "block"; // Mostra a opção
+                } else {
+                option.style.display = "none"; // Oculta a opção
+                }
+            }
+        }
+
+        function voltar() {
+            window.history.back();
+        }
        
     </script>
 </html>

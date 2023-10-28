@@ -8,6 +8,7 @@
 }
 
 .charts {
+    padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -171,8 +172,8 @@ thead {
 
 .map-image{
     padding: 20px;
-    height: 80%;
-    width: 70%;
+    height: 100%;
+    width: 100%;
 }
 
 @keyframes spin {
@@ -184,3 +185,4 @@ thead {
         transform: rotate(360deg);
     }
 }
+

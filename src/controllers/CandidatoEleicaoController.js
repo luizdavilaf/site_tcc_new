@@ -88,7 +88,7 @@ const getFormData = async (req, res) => {
         res.render('results-year-charts.ejs', { chartData, dataGeral });
 
     } catch (error) {
-        //console.log(error)
+        console.log(error)
         res.render('error.ejs');
     }
 }
