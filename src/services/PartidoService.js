@@ -72,14 +72,27 @@ const getPartidoEleicaoByAge = (partidoId, eleicaoId) => {
         attributes: [
             [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
             [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
-            [Sequelize.col('candidatoEleicao.NR_IDADE_DATA_POSSE'), 'idade'],
+            [Sequelize.literal(`
+                CASE
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 18 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 30 THEN '18-30 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 31 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 40 THEN '31-40 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 41 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 50 THEN '41-50 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 51 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 60 THEN '51-60 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 61 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 70 THEN '61-70 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 71 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 80 THEN '71-80 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 81 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 90 THEN '81-90 anos'
+                    WHEN "candidatoEleicao"."NR_IDADE_DATA_POSSE" >= 91 AND "candidatoEleicao"."NR_IDADE_DATA_POSSE" <= 100 THEN '91-100 anos'
+                    ELSE 'Idade inválida'
+                END
+            `), 'idade'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
         group: [
-            Sequelize.col('candidatoEleicao.NR_IDADE_DATA_POSSE'),
-            Sequelize.col('eleicao.ANO_ELEICAO'),
-            Sequelize.col('eleicao.NR_TURNO')
+            "idade",
+            "anoEleicao",
+            "turno"
         ],
+        order: [['idade', 'ASC']],
         raw: true,
     })
 }

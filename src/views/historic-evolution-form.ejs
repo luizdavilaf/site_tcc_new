@@ -46,6 +46,7 @@
                     <select id="eleicao1[situacao_turno]" name="eleicao1[situacao_turno]">
                         <option selected>Selecione a Situação do Turno...</option>
                         <option value="todos">Todas</option>
+                        <option value="todosEleitos">Candidatos Eleitos por qualquer tipo</option>
                         <% situacoes_turno.forEach(function(row) { %>
                         <option value="<%= row.id %>"><%= row.nome %></option>
                         <% }); %>
@@ -78,6 +79,7 @@
                     </select>  
                     <br>  
                     <br>
+                    <button class="w3-button w3-dark-grey" onclick="voltar()"><i class="fa fa-arrow-left"></i> Voltar</button>
                     <button type="submit" class="w3-button w3-dark-grey">Buscar <i class="fa fa-arrow-right"></i></button>
                 </form>
             </div>
@@ -128,6 +130,10 @@
         document.querySelector("form").addEventListener("submit", function () {
             showLoader();
         });
+
+        function voltar() {
+            window.history.back();
+        }
     
        
     </script>

@@ -131,7 +131,16 @@
                             return colors;
                         }
                     </script>
+                     
                 </div>
+                <button class="w3-button w3-dark-grey" onclick="voltar()"><i class="fa fa-arrow-left"></i> Voltar</button>
             </div>
   </body>
+
+  <script>
+    function voltar() {
+        //ta caindo no loader o voltar
+        window.location.href = "/noauth/views/compare-regions";
+    }
+</script>
 </html>

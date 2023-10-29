@@ -20,7 +20,7 @@
                  <h3><b>Resultados da <%= `${dataGeral.eleicao}` %>:</b></h3>
                  <h4><b><%= `${dataGeral.regiao}` %></b></h4>
             </header>
-            <div class="w3-container">
+            <div class="w3-container" style="padding-left:15px">
                 <div class="charts">
                     <% chartData.forEach((category, index) => { %>
                         <div class="chart">
@@ -124,6 +124,13 @@
                         }
                     </script>
                 </div>
+                <button class="w3-button w3-dark-grey" onclick="voltar()"><i class="fa fa-arrow-left"></i> Voltar</button>
             </div>
   </body>
+  <script>
+    function voltar() {
+        //ta caindo no loader o voltar
+        window.location.href = "/noauth/views/results-year";
+    }
+</script>
 </html>
