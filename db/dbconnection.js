@@ -7,6 +7,6 @@ module.exports = {
         dialect: 'postgres',
         logging: false,
     },
-  
+    
     // Adicione configurações para produção e teste, se necessário.
 };
