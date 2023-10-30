@@ -14,4 +14,6 @@ router.get("/party-historic-evolution-form", viewsController.renderPartyHistoric
 
 router.get("/dashboard", viewsController.renderDashboard)
 
+router.get("/submit-opinion", viewsController.renderOpinions)
+
 module.exports = router

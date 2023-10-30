@@ -4,9 +4,11 @@ const sync = require('./src/models/sync')
 db = require('./db/dbconnection');
 sequelize = require("./db/sequelize-connection");
 
-app.use(express.static('public'));
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
-app.set('views', 'src/views');
+app.set('views', path.join(__dirname, 'src/views'));
 app.use(express.urlencoded({
     extended: true
 }));

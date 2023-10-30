@@ -77,7 +77,19 @@ const renderDashboard = async (req, res) => {
     }
 }
 
+const renderOpinions = async (req, res) => {
+    try {
+     
+
+        return res.render("submit-opinion")
+    } catch (error) {
+        console.log(error)
+        res.render('error.ejs');
+    }
+}
+
 module.exports = {
+    renderOpinions,
     renderDashboard,
     renderPartyHistoricEvolution,
     renderHistoricEvolution,
