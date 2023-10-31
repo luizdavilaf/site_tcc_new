@@ -8,16 +8,21 @@ const utils = require("../utils/utils")
 
 const getHistoryByVariable = async (req, res) => {
     try {
+        let turno
         if (!req.body.variavel) {
             throw new Error("Variável deve ser selecionada")
         }
         if (!req.body.partido) {
             throw new Error("Todos os campos devem ser preenchidos")
         }
-        const eleicoes = await EleicaoService.findAll()
+        
+        if (req.body.only_first_turn && req.body.only_first_turn == "true") {
+            turno = 1
+        }
+        const eleicoes = await EleicaoService.findAll(turno)
         let regiao = ""
         const partido = await PartidoService.findById(req.body.partido)
-
+        
         const promises = []
 
         let tituloVariavel = ""
@@ -25,7 +30,7 @@ const getHistoryByVariable = async (req, res) => {
             tituloVariavel = "Gênero"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(PartidoService.getPartidoEleicaoByGender(parseInt(req.body.partido),  parseInt(eleicao.id)))
+                promises.push(PartidoService.getPartidoEleicaoByGender(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
 
         } else if (req.body.variavel == "idade") {

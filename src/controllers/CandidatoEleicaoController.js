@@ -162,6 +162,7 @@ const getFormDataForCompare = async (req, res) => {
 const getFormDataForHistoricEvolution = async (req, res) => {
 
     try {
+        let turno
         //console.log(req.body)
         if (!req.body.variavel) {
             throw new Error("Variável deve ser selecionada")
@@ -169,7 +170,10 @@ const getFormDataForHistoricEvolution = async (req, res) => {
         if (!req.body.eleicao1.abrangencia || !req.body.eleicao1.regiao || !req.body.eleicao1.situacao_turno || !req.body.eleicao1.cargo) {
             throw new Error("Todos os campos devem ser preenchidos")
         }
-        const eleicoes = await EleicaoService.findAll()
+        if (req.body.only_first_turn && req.body.only_first_turn == "true") {
+            turno = 1
+        }
+        const eleicoes = await EleicaoService.findAll(turno)
         let regiao = ""
 
         const promises = []

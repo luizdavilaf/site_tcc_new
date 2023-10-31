@@ -24,7 +24,7 @@
         <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
         <div class="w3-main" style="margin-left:300px;margin-top:43px;">
              <header class="w3-container" style="padding-top:22px">
-                <h5><b>Compare Eleições:</b></h5>
+                <h3><b>Compare Eleições:</b></h3>
             </header>
             <div class="w3-container">
                 <div class="loader-container" id="loader-container">
@@ -33,8 +33,8 @@
                     <p>Isto pode levar alguns minutos.</p>
                 </div>
                 <form action="/noauth/candidate-election/compare-elections" method="post">
-                    <h6><b>Eleição 1:</b></h6>
-                    <label for="eleicao1[eleicao]">Selecione a Eleição 1:</label>
+                    <h4><b>Eleição 1:</b></h4>
+                    <label for="eleicao1[eleicao]">Selecione a Eleição 1:</label><br>  
                     <select id="eleicao1[eleicao]" name="eleicao1[eleicao]" required>
                         <option selected>Selecione a Eleição...</option>
                         <% eleicoes.forEach(function(row) { %>
@@ -43,7 +43,7 @@
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao1[abrangencia]">Abrangência:</label>
+                    <label for="eleicao1[abrangencia]">Abrangência:</label><br>  
                     <select id="eleicao1[abrangencia]" name="eleicao1[abrangencia]">
                         <option selected>Selecione a Abrangência...</option>
                         <% abrangencias.forEach(function(row) { %>
@@ -52,13 +52,13 @@
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao1[regiao]">Região:</label>
+                    <label for="eleicao1[regiao]">Região:</label><br>  
                     <select id="regiao1" name="eleicao1[regiao]" placeholder="Selecione uma região..."  data-width="400px" class="selectpicker select" data-show-subtext="true" data-live-search="true">
                         <option disabled>Selecione a Abrangência primeiro...</option>
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao1[situacao_turno]">Situação Turno:</label>
+                    <label for="eleicao1[situacao_turno]">Situação Turno:</label><br>  
                     <select id="eleicao1[situacao_turno]" name="eleicao1[situacao_turno]">
                         <option selected>Selecione a Situação do Turno...</option>
                         <option value="todos">Todas</option>
@@ -69,7 +69,7 @@
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao1[cargo]">Cargo:</label>
+                    <label for="eleicao1[cargo]">Cargo:</label><br>  
                     <select id="eleicao1[cargo]" name="eleicao1[cargo]">
                         <option selected>Selecione o Cargo...</option>
                         <option value="todos">Todos os cargos</option>                        
@@ -80,8 +80,8 @@
                     <br>  
                     <br> 
 
-                    <h6><b>Eleição 2:</b></h6>
-                    <label for="eleicao2[eleicao]">Seleciona a eleição 2:</label>
+                    <h4><b>Eleição 2:</b></h4>
+                    <label for="eleicao2[eleicao]">Seleciona a eleição 2:</label><br>  
                     <select id="eleicao2[eleicao]" name="eleicao2[eleicao]" required>
                         <option selected>Selecione a Eleição...</option>
                         <% eleicoes.forEach(function(row) { %>
@@ -90,7 +90,7 @@
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao2[abrangencia]">Abrangência:</label>
+                    <label for="eleicao2[abrangencia]">Abrangência:</label><br>  
                     <select id="eleicao2[abrangencia]" name="eleicao2[abrangencia]">
                         <option selected>Selecione a Abrangência...</option>
                         <% abrangencias.forEach(function(row) { %>
@@ -99,13 +99,13 @@
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao2[regiao]">Região:</label>
+                    <label for="eleicao2[regiao]">Região:</label><br>  
                     <select id="regiao2" name="eleicao2[regiao]" placeholder="Selecione uma região..."  data-width="400px" class="selectpicker select" data-show-subtext="true" data-live-search="true">
                         <option disabled>Selecione a Abrangência primeiro...</option>
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao2[situacao_turno]">Situação Turno:</label>
+                    <label for="eleicao2[situacao_turno]">Situação Turno:</label><br>  
                     <select id="eleicao2[situacao_turno]" name="eleicao2[situacao_turno]">
                         <option selected>Selecione a Situação do Turno...</option>
                         <option value="todos">Todas</option>
@@ -116,7 +116,7 @@
                     </select>
                     <br>
                     <br>
-                    <label for="eleicao2[cargo]">Cargo:</label>
+                    <label for="eleicao2[cargo]">Cargo:</label><br>  
                     <select id="eleicao2[cargo]" name="eleicao2[cargo]">
                         <option selected>Selecione o Cargo...</option>
                         <option value="todos">Todos os cargos</option>                        
@@ -126,7 +126,7 @@
                     </select>                    
                     <br>  
                     <br>
-                    <h6><b>Selecione a variável para comparação:</b></h6>                    
+                    <h4><b>Selecione a variável para comparação:</b></h4><br>                      
                     <select id="variavel" name="variavel">
                         <option selected>Selecione a variável...</option>
                         <option value="genero">Gênero</option>   
