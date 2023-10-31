@@ -9,6 +9,12 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+
         <style>html,body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}</style>
     </head>
 
@@ -32,7 +38,7 @@
                     <select id="eleicao1[eleicao]" name="eleicao1[eleicao]" required>
                         <option selected>Selecione a Eleição...</option>
                         <% eleicoes.forEach(function(row) { %>
-                        <option value="<%= row.id %>"><%= `${row.ano_eleicao} - ${row.turno} Turno`   %></option>                        
+                        <option data-tipo-eleicao=<%=`${row.TIPO_ELEICAO}`%> value="<%= row.id %>"><%= `${row.ano_eleicao} - ${row.turno} Turno`   %></option>                        
                         <% }); %>
                     </select>
                     <br>
@@ -47,8 +53,8 @@
                     <br>
                     <br>
                     <label for="eleicao1[regiao]">Região:</label>
-                    <select id="eleicao1[regiao]" name="eleicao1[regiao]">
-                        <option selected>Selecione a Abrangência primeiro...</option>
+                    <select id="regiao1" name="eleicao1[regiao]" placeholder="Selecione uma região..."  data-width="400px" class="selectpicker select" data-show-subtext="true" data-live-search="true">
+                        <option disabled>Selecione a Abrangência primeiro...</option>
                     </select>
                     <br>
                     <br>
@@ -79,7 +85,7 @@
                     <select id="eleicao2[eleicao]" name="eleicao2[eleicao]" required>
                         <option selected>Selecione a Eleição...</option>
                         <% eleicoes.forEach(function(row) { %>
-                        <option value="<%= row.id %>"><%= `${row.ano_eleicao} - ${row.turno} Turno`   %></option>
+                        <option data-tipo-eleicao=<%=`${row.TIPO_ELEICAO}`%> value="<%= row.id %>"><%= `${row.ano_eleicao} - ${row.turno} Turno`   %></option>
                         <% }); %>
                     </select>
                     <br>
@@ -94,8 +100,8 @@
                     <br>
                     <br>
                     <label for="eleicao2[regiao]">Região:</label>
-                    <select id="eleicao2[regiao]" name="eleicao2[regiao]">
-                        <option selected>Selecione a Abrangência primeiro...</option>
+                    <select id="regiao2" name="eleicao2[regiao]" placeholder="Selecione uma região..."  data-width="400px" class="selectpicker select" data-show-subtext="true" data-live-search="true">
+                        <option disabled>Selecione a Abrangência primeiro...</option>
                     </select>
                     <br>
                     <br>
@@ -142,53 +148,77 @@
         </div>           
     </body>
     <script>
+        const eleicaoSelect = document.getElementById("eleicao1[eleicao]");
         const abrangenciaSelect = document.getElementById('eleicao1[abrangencia]');
-        const regiaoSelect = document.getElementById('eleicao1[regiao]');
+        const regiaoSelect = document.getElementById('regiao1');
 
-        abrangenciaSelect.addEventListener('change', async function() {
-            const abrangencia = abrangenciaSelect.value;
+        eleicaoSelect.addEventListener("change", function () {
+                // Get the selected value of Eleição
+                const selectedEleicao = eleicaoSelect.value;
 
-            const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
-            const data = await response.json()
-            regiaoSelect.innerHTML = '';
-            const noOption = document.createElement('option');            
-            noOption.textContent = "Selecione a região"
-            regiaoSelect.appendChild(noOption);
-            const firstOption = document.createElement('option');
-            firstOption.value = "digitarRegiao"
-            firstOption.textContent = "Digite a região"
-            regiaoSelect.appendChild(firstOption);
-            data.data.forEach(regiao => {
-            const option = document.createElement('option');
-            option.value = regiao.id;
-            option.textContent = `${regiao.estado} - ${regiao.nome}`;
-            regiaoSelect.appendChild(option);
+                // Find the selectedEleicao in the options and get its TIPO_ELEICAO
+                const selectedEleicaoOption = eleicaoSelect.querySelector(`[value="${selectedEleicao}"]`);
+                const selectedTipoEleicao = selectedEleicaoOption.getAttribute("data-tipo-eleicao");
+
+                // Set the value and text of the Abrangência dropdown
+                abrangenciaSelect.value = selectedTipoEleicao;
+                abrangenciaSelect.innerHTML = `<option value="${selectedTipoEleicao}">${selectedTipoEleicao}</option>`;
+
+                while (regiaoSelect.firstChild) {
+                    regiaoSelect.removeChild(regiaoSelect.firstChild);
+                }
+
+                const ue = <%- JSON.stringify(unidades_eleitorais) %>
+
+                ue.forEach((unidade) => {
+                    if (unidade.abrangencia === selectedTipoEleicao) {
+                        const option = document.createElement("option");
+                        option.value = unidade.id;
+                        option.textContent = `${unidade.estado} - ${unidade.nome}`;
+                        regiaoSelect.appendChild(option);
+                    }
+                });
+                $("#regiao1").selectpicker('render').selectpicker("refresh");
+              
             });
-        });
 
         const abrangenciaSelect2 = document.getElementById('eleicao2[abrangencia]');
-        const regiaoSelect2 = document.getElementById('eleicao2[regiao]');
+        const regiaoSelect2 = document.getElementById('regiao2');
 
-        abrangenciaSelect2.addEventListener('change', async function() {
+
+        const eleicaoSelect2 = document.getElementById("eleicao2[eleicao]");
+            eleicaoSelect2.addEventListener('change', async function() {
             const abrangencia = abrangenciaSelect2.value;
 
-            const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
-            const data = await response.json()
-            regiaoSelect2.innerHTML = '';
-             const noOption = document.createElement('option');            
-            noOption.textContent = "Selecione a região"
-            regiaoSelect2.appendChild(noOption);
-            const firstOption = document.createElement('option');
-            firstOption.value = "digitarRegiao"
-            firstOption.textContent = "Digite a região"
-            regiaoSelect2.appendChild(firstOption);
-            data.data.forEach(regiao => {
-            const option = document.createElement('option');
-            option.value = regiao.id;
-            option.textContent = `${regiao.estado} - ${regiao.nome}`;
-            regiaoSelect2.appendChild(option);
-            });
+            const selectedEleicao = eleicaoSelect2.value;
+
+                // Find the selectedEleicao in the options and get its TIPO_ELEICAO
+                const selectedEleicaoOption = eleicaoSelect2.querySelector(`[value="${selectedEleicao}"]`);
+                const selectedTipoEleicao = selectedEleicaoOption.getAttribute("data-tipo-eleicao");
+
+                // Set the value and text of the Abrangência dropdown
+                abrangenciaSelect2.value = selectedTipoEleicao;
+                abrangenciaSelect2.innerHTML = `<option value="${selectedTipoEleicao}">${selectedTipoEleicao}</option>`;
+
+                while (regiaoSelect2.firstChild) {
+                    regiaoSelect2.removeChild(regiaoSelect2.firstChild);
+                }
+
+                const ue = <%- JSON.stringify(unidades_eleitorais) %>
+
+                ue.forEach((unidade) => {
+                    if (unidade.abrangencia === selectedTipoEleicao) {
+                        const option = document.createElement("option");
+                        option.value = unidade.id;
+                        option.textContent = `${unidade.estado} - ${unidade.nome}`;
+                        regiaoSelect2.appendChild(option);
+                    }
+                });
+                $("#regiao2").selectpicker('render').selectpicker("refresh");
         });
+
+
+
         function showLoader() {
             document.getElementById("loader-container").style.display = "flex";
         }        

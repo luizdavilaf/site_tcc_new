@@ -8,11 +8,12 @@ const CandidatoService = require("../services/CandidatoService")
 
 const renderResultsYearForm = async (req, res) => {
     try {
-        const eleicoes = await EleicaoService.findAll()
+        const eleicoes = await EleicaoService.findAll()       
         const abrangencias = await UnidadeEleitoralService.findAllAbrangencies()
+        const unidades_eleitorais = await UnidadeEleitoralService.findAllUnities()       
         const situacoes_turno = await SituacaoTurnoService.findAll()
         const cargos = await CargoService.findAll()
-        return res.render("results-year-form", { eleicoes, abrangencias, situacoes_turno, cargos })
+        return res.render("results-year-form", { eleicoes, abrangencias, situacoes_turno, cargos, unidades_eleitorais })
     } catch (error) {
         console.log(error)
         res.render('error.ejs');
@@ -24,9 +25,10 @@ const renderResultsYearFormForCompare = async (req, res) => {
     try {
         const eleicoes = await EleicaoService.findAll()
         const abrangencias = await UnidadeEleitoralService.findAllAbrangencies()
+        const unidades_eleitorais = await UnidadeEleitoralService.findAllUnities()
         const situacoes_turno = await SituacaoTurnoService.findAll()
         const cargos = await CargoService.findAll()
-        return res.render("compare-regions-form", { eleicoes, abrangencias, situacoes_turno, cargos })
+        return res.render("compare-regions-form", { eleicoes, abrangencias, situacoes_turno, cargos, unidades_eleitorais })
     } catch (error) {
         console.log(error)
         res.render('error.ejs');
@@ -45,9 +47,10 @@ const renderSearchCandidates = async (req, res) => {
 const renderHistoricEvolution = async (req,res) =>{
     try {       
         const abrangencias = await UnidadeEleitoralService.findAllAbrangencies()
+        const unidades_eleitorais = await UnidadeEleitoralService.findAllUnities()  
         const situacoes_turno = await SituacaoTurnoService.findAll()
         const cargos = await CargoService.findAll()
-        return res.render("historic-evolution-form", {  abrangencias, situacoes_turno, cargos })        
+        return res.render("historic-evolution-form", { abrangencias, situacoes_turno, cargos, unidades_eleitorais })        
     } catch (error) {
         console.log(error)
         res.render('error.ejs');

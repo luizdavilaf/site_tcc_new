@@ -13,6 +13,13 @@ const findAllAbrangencies = () => {
     })
 }
 
+const findAllUnities = () => {
+    return UnidadeEleitoral.findAll({       
+        raw: true,
+        order: [['TP_ABRANGENCIA', 'ASC'], ['SG_UF', 'ASC'], ['NM_UE', 'ASC']]
+    })
+}
+
 const findUnitiesByAbrangengy = (abrangency) => {
     return UnidadeEleitoral.findAll({
         where: { abrangencia: abrangency },
@@ -23,6 +30,7 @@ const findUnitiesByAbrangengy = (abrangency) => {
 }
 
 module.exports = {
+    findAllUnities,
     findAll,
     findAllAbrangencies,
     findUnitiesByAbrangengy

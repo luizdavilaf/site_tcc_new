@@ -9,6 +9,12 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.js"></script>
+
         <style>html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}</style>
     </head>
 
@@ -28,31 +34,33 @@
                 </div>
                 <form action="/noauth/candidate-election/result-year" method="get">
                     <label for="eleicao">Eleição:</label>
+                    <br>
                     <select id="eleicao" name="eleicao" required>
                         <option selected>Selecione a Eleição...</option>
                         <% eleicoes.forEach(function(row) { %>
-                        <option value="<%= row.id %>"><%= `${row.ano_eleicao} - ${row.turno} Turno`   %></option>
+                        <option data-tipo-eleicao=<%=`${row.TIPO_ELEICAO}`%> value="<%= row.id %>"><%= `${row.ano_eleicao} - ${row.turno} Turno`%></option>
                         <% }); %>
                     </select>
                     <br>
                     <br>
                     <label for="abrangencia">Abrangência:</label>
-                    <select id="abrangencia" name="abrangencia">
-                        <option selected>Selecione a Abrangência...</option>
-                        <% abrangencias.forEach(function(row) { %>
-                        <option value="<%= row.abrangencia %>"><%= row.abrangencia %></option>
-                        <% }); %>
+                    <br>
+                    <select id="abrangencia" name="abrangencia" >
+                        <option selected>Abrangência de acordo com a Eleição</option>                        
                     </select>
                     <br>
                     <br>
                     <label for="regiao">Região:</label>
-                    <select id="regiao" name="regiao">
-                        <option selected>Selecione a Abrangência primeiro...</option>
+                    <br>
+                    <select required id="regiao" name="regiao" placeholder="Selecione uma região..."  data-width="400px" class="selectpicker select" data-show-subtext="true" data-live-search="true">
+                        <option disabled>Selecione uma Eleição</option>
+                                             
                     </select>
                     <br>
                     <br>
                     <label for="situacao_turno">Situação Turno:</label>
-                    <select id="situacao_turno" name="situacao_turno">
+                    <br>
+                    <select id="situacao_turno" name="situacao_turno" required>
                         <option selected>Selecione a Situação do Turno...</option>
                         <option value="todos">Todas</option>
                         <option value="todosEleitos">Candidatos Eleitos por qualquer tipo</option>
@@ -63,6 +71,7 @@
                     <br>
                     <br>
                     <label for="cargo">Cargo:</label>
+                    <br>
                     <select id="cargo" name="cargo">
                         <option selected>Selecione o Cargo...</option>
                         <option value="todos">Todos os cargos</option>                        
@@ -80,98 +89,61 @@
         </div>
            
     </body>
-    <script>
-        const abrangenciaSelect = document.getElementById('abrangencia');
-        const regiaoSelect = document.getElementById('regiao');
+        <script>
+             const eleicaoSelect = document.getElementById("eleicao");
+            const abrangenciaSelect = document.getElementById("abrangencia");
+            const regiaoSelect = document.getElementById("regiao");
 
-        abrangenciaSelect.addEventListener('change', async function() {
-            const abrangencia = abrangenciaSelect.value;
+            // Add an event listener to the Eleição dropdown
+            eleicaoSelect.addEventListener("change", function () {
+                // Get the selected value of Eleição
+                const selectedEleicao = eleicaoSelect.value;
 
-            const response = await fetch(`/noauth/unidade-eleitoral/${abrangencia}`)
-            const data = await response.json()
-            regiaoSelect.innerHTML = '';
-            const noOption = document.createElement('option');            
-            noOption.textContent = "Selecione a região"
-            regiaoSelect.appendChild(noOption);
-            const firstOption = document.createElement('option');
-            firstOption.value = "digitarRegiao"
-            firstOption.textContent = "Digite a região"
-            regiaoSelect.appendChild(firstOption);
-            data.data.forEach(regiao => {
-            const option = document.createElement('option');
-            option.value = regiao.id;
-            option.textContent = `${regiao.estado} - ${regiao.nome}`;
-            regiaoSelect.appendChild(option);
-            });
-        });
-        function showLoader() {
-            document.getElementById("loader-container").style.display = "flex";
-        }        
-        function hideLoader() {
-            document.getElementById("loader-container").style.display = "none";
-        }        
-        document.querySelector("form").addEventListener("submit", function () {
-            showLoader();
-        });
-        regiaoSelect.addEventListener("change", function() {            
-            const selectedValue = regiaoSelect.value;
+                // Find the selectedEleicao in the options and get its TIPO_ELEICAO
+                const selectedEleicaoOption = eleicaoSelect.querySelector(`[value="${selectedEleicao}"]`);
+                const selectedTipoEleicao = selectedEleicaoOption.getAttribute("data-tipo-eleicao");
 
-            if (selectedValue === "digitarRegiao") {
-            // Abrir uma modal ou janela para inserir o texto de pesquisa
-            // Após a busca, atualize o select com as opções correspondentes
-            // Por exemplo:
-                const regiaoDigitada = prompt("Digite a região");
-                if (regiaoDigitada !== null) {
-                    const textoFiltro = regiaoDigitada.toLowerCase();
-                    const novasOpcoes = [];
+                // Set the value and text of the Abrangência dropdown
+                abrangenciaSelect.value = selectedTipoEleicao;
+                abrangenciaSelect.innerHTML = `<option value="${selectedTipoEleicao}">${selectedTipoEleicao}</option>`;
 
-                    for (let i = 0; i < regiaoSelect.options.length; i++) {
-                        const option = regiaoSelect.options[i];
-                        const optionTexto = option.textContent.toLowerCase();
-
-                        if (optionTexto.includes(textoFiltro)) {
-                            novasOpcoes.push(option.cloneNode(true));
-                        }
-                    }
-
-                    // Remova todas as opções existentes no select.
-                    while (regiaoSelect.firstChild) {
-                        regiaoSelect.removeChild(regiaoSelect.firstChild);
-                    }
-
-                    // Adicione as novas opções que correspondem ao filtro.
-                    novasOpcoes.forEach(function(novaOpcao) {
-                        regiaoSelect.appendChild(novaOpcao);
-                    });
+                while (regiaoSelect.firstChild) {
+                    regiaoSelect.removeChild(regiaoSelect.firstChild);
                 }
-            }
-        });
+
+                const ue = <%- JSON.stringify(unidades_eleitorais) %>
+
+                ue.forEach((unidade) => {
+                    if (unidade.abrangencia === selectedTipoEleicao) {
+                        const option = document.createElement("option");
+                        option.value = unidade.id;
+                        option.textContent = `${unidade.estado} - ${unidade.nome}`;
+                        regiaoSelect.appendChild(option);
+                    }
+                });
+                $("#regiao").selectpicker('render').selectpicker("refresh");
+              
+            });
+
+            
+
+           
+        
+            function showLoader() {
+                document.getElementById("loader-container").style.display = "flex";
+            }        
+            function hideLoader() {
+                document.getElementById("loader-container").style.display = "none";
+            }        
+            document.querySelector("form").addEventListener("submit", function () {
+                showLoader();
+            });
 
         
-        // Esta é uma função para filtrar as opções com base no texto do option.
-        function filtrarOpcoes(textoFiltro) {
-        // Converta o texto de filtro para minúsculas para comparação sem distinção entre maiúsculas e minúsculas.
-            textoFiltro = textoFiltro.toLowerCase();
-
-            // Percorra todas as opções e verifique se o texto do option contém o texto de filtro.
-            for (let i = 0; i < regiaoSelect.options.length; i++) {
-                const option = regiaoSelect.options[i];
-                const optionTexto = option.textContent.toLowerCase();
-
-                // Verifique se o texto de filtro está contido no texto do option.
-                if (optionTexto.includes(textoFiltro)) {
-                option.style.display = "block"; // Mostra a opção
-                } else {
-                option.style.display = "none"; // Oculta a opção
-                }
+            function voltar() {
+                //ta caindo no loader o voltar
+                window.history.back();
             }
-        }
-
-       
-        function voltar() {
-            //ta caindo no loader o voltar
-             window.history.back();
-        }
 
 
        

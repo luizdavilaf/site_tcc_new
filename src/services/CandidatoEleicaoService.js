@@ -230,7 +230,7 @@ const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) 
             [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
             [Sequelize.col('unidadeEleitoral.SG_UF'), 'estado'],
             [Sequelize.col('unidadeEleitoral.NM_UE'), 'nome'],
-            [Sequelize.col('ocupacao.DS_OCUPACAO'), 'ocupacao'],
+            [Sequelize.col('ocupacao.CATEGORIA'), 'ocupacao'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
         group: [
@@ -238,7 +238,7 @@ const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) 
             Sequelize.col('eleicao.NR_TURNO'),
             Sequelize.col('unidadeEleitoral.SG_UF'),
             Sequelize.col('unidadeEleitoral.NM_UE'),
-            Sequelize.col('ocupacao.DS_OCUPACAO')],
+            Sequelize.col('ocupacao.CATEGORIA')],
         raw: true,
     })
 }

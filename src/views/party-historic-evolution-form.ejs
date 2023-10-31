@@ -28,7 +28,9 @@
                     <p>Isto pode levar alguns minutos.</p>
                 </div>               
                 <form action="/noauth/party/historic-evolution" method="post">                                                     
-                    <label for="partido">Abrangência:</label>
+                    <label for="partido">
+                        <h6><b>Partido:</b></h6> 
+                    </label>
                     <select id="partido" name="partido">
                         <option selected>Selecione o partido...</option>
                         <% partidos.forEach(function(row) { %>

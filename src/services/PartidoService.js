@@ -15,6 +15,7 @@ const Partido = require("../models/Partido");
 const findAll = () => {
     return Partido.findAll({
         raw: true,
+        order: [['SG_PARTIDO', 'ASC']]
     })
 }
 
@@ -28,7 +29,7 @@ const getPartidoEleicaoByGender = (partidoId, eleicaoId) => {
             [
                 {
                     model: Eleicao,
-                    attributes: [],
+                    attributes: [],                    
                 },
                 {
                     model: Candidato,
@@ -117,11 +118,11 @@ const getPartidoEleicaoByOcupation = (partidoId, eleicaoId) => {
         attributes: [
             [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
             [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
-            [Sequelize.col('ocupacao.DS_OCUPACAO'), 'ocupacao'],
+            [Sequelize.col('ocupacao.CATEGORIA'), 'ocupacao'],
             [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
         ],
         group: [
-            Sequelize.col('ocupacao.DS_OCUPACAO'),
+            Sequelize.col('ocupacao.CATEGORIA'),
             Sequelize.col('eleicao.ANO_ELEICAO'),
             Sequelize.col('eleicao.NR_TURNO'),
         ],

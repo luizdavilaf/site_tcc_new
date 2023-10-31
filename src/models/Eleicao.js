@@ -14,6 +14,10 @@ const Eleicao = sequelize.define('eleicao', {
         type: DataTypes.INTEGER,
         allowNull: false, 
         comment: "turno da eleicao"
+    },
+    TIPO_ELEICAO: {
+        field: "TIPO_ELEICAO",
+        type: DataTypes.STRING,       
     }
 }, {
     sequelize,
