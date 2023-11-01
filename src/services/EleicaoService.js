@@ -1,14 +1,26 @@
 const Eleicao = require("../models/Eleicao")
 const { Sequelize } = require("sequelize");
 
-const findAll = (turno) => {
+const findAll = (turno, abrangencia) => {
     const queryOptions = {
         raw: true,
         order: [['ANO_ELEICAO', 'ASC'], ['NR_TURNO', 'ASC']]
     };
 
+    const whereConditions = {};
+
     if (turno !== undefined) {
-        queryOptions.where = { "NR_TURNO": turno };
+        whereConditions.NR_TURNO = turno;
+    }
+
+    if (abrangencia !== undefined) {
+        whereConditions.TIPO_ELEICAO = abrangencia;
+    }
+
+    if (Object.keys(whereConditions).length > 0) {
+        queryOptions.where = {
+            [Sequelize.Op.and]: [whereConditions]
+        };
     }
 
     return Eleicao.findAll(queryOptions);

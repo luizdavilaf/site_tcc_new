@@ -26,7 +26,7 @@
                 <div class="charts">
                     <div class="chart">
                 
-                <canvas id="ChartResult" width="300" height="200"></canvas>
+                <canvas id="ChartResult" width="300" height="300"></canvas>
                 <script>
                 const ctx = document.getElementById('ChartResult').getContext('2d');                                                               
                 const data = <%- JSON.stringify(chartData) %>;
@@ -46,8 +46,8 @@
                             },
                             datalabels: {
                                 color: 'white', // Cor dos números
-                                anchor: 'end', // Posição do número (pode ser 'start', 'center' ou 'end')
-                                align: 'end' // Alinhamento do número (pode ser 'start', 'center' ou 'end')
+                                anchor: 'center', // Posição do número (pode ser 'start', 'center' ou 'end')
+                                align: 'center' // Alinhamento do número (pode ser 'start', 'center' ou 'end')
                             }
                         },
                         scales: {
@@ -60,6 +60,7 @@
                             }
                         }
                     },
+                    plugins: [ChartDataLabels]
                 };
                 new Chart(ctx,config);
             

@@ -9,6 +9,7 @@ const utils = require("../utils/utils")
 const getHistoryByVariable = async (req, res) => {
     try {
         let turno
+        let abrangencia
         if (!req.body.variavel) {
             throw new Error("Variável deve ser selecionada")
         }
@@ -19,7 +20,11 @@ const getHistoryByVariable = async (req, res) => {
         if (req.body.only_first_turn && req.body.only_first_turn == "true") {
             turno = 1
         }
-        const eleicoes = await EleicaoService.findAll(turno)
+        if (req.body.abrangencia && req.body.abrangencia != "") {
+            abrangencia = req.body.abrangencia
+        }
+        console.log(req.body.abrangencia)
+        const eleicoes = await EleicaoService.findAll(turno, abrangencia)
         let regiao = ""
         const partido = await PartidoService.findById(req.body.partido)
         
@@ -93,7 +98,8 @@ const getHistoryByVariable = async (req, res) => {
                 label: variavel, // Use o gênero como label
                 data: [], // Array de dados para o gênero
                 backgroundColor: utils.generateSequentialColors(index),
-                borderColor: utils.generateSequentialColors(index)
+                borderColor: utils.generateSequentialColors(index),
+                minBarLength: 15,
             };
 
 
