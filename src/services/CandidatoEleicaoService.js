@@ -403,7 +403,9 @@ const getCandidatoEleicaoReelection = (eleicao, regiao, situacao_turno, cargo) =
         raw: true,
     }).then(results => {
         results.forEach(result => {
-            result.reeleito = result.reeleito === 0 ? 'NAO' : 'SIM';
+            result.reeleito = result.reeleito === 0 ? 'NAO' 
+                : result.reeleito === 1 ? 'SIM'
+                    : 'NÃO INFORMADO'
         });
         return results;
     });
