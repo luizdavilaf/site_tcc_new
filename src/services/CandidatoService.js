@@ -18,7 +18,7 @@ const countAll = () => {
     })
 }
 
-/* const findByName = (name, pageSize, offset) => {
+const findByName = (name, pageSize, offset) => {
     //console.log(name)
     return Candidato.findAndCountAll({
         where: {
@@ -32,9 +32,9 @@ const countAll = () => {
         raw: true, 
         order: [['NM_CANDIDATO', 'ASC']],             
     })
-} */
+}
 
-const findByName = (name, pageSize, offset) => {
+/* const findByName = (name, pageSize, offset) => {
     return sequelize.query(
         `SELECT DISTINCT ON (id) id, "NM_CANDIDATO" as nome
     FROM (
@@ -73,7 +73,7 @@ const countByName = (name) => {
         }
     );
 };
-
+ */
 
 
 const findById = (id) => {
@@ -122,8 +122,7 @@ const findById = (id) => {
     })
 }
 
-module.exports = {
-    countByName,
+module.exports = {    
     countAll,
     findById,
     findByName

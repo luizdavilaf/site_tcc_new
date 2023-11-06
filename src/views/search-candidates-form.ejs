@@ -85,16 +85,18 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var results = JSON.parse(xhr.responseText);
+                    console.log(results)
                     resultsSelect.innerHTML = '';
                     if (results && results.success && results.data) {
-                        results.data.candidatos.forEach(function(result) {
+                        loadingIndicator.style.display = 'none';
+                         results.data.rows.forEach(function(result) {
                             var option = document.createElement('option');
                             option.value = result.id;
                             option.text = result.nome;
                             resultsSelect.appendChild(option);
                         });
                         var totalResults = results.data.count;
-                        var currentResults = results.data.candidatos.length;
+                        var currentResults = results.data.rows.length;
 
                         if (totalResults > currentResults) {
                             // Exibir o botão "Carregar Mais" se houver mais resultados
@@ -108,7 +110,7 @@
                             loadMoreButton.style.display = 'none';
                         }
                     }                    
-                    loadingIndicator.style.display = 'none';
+                    
                 }
             };                    
                 
