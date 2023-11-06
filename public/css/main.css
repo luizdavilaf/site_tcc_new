@@ -159,6 +159,10 @@ thead {
     display: flex, none;
 }
 
+.w3-button, button {
+    width: 150px;
+    margin-left: 5px;
+}
 
 .loader-container p {
     color: #fff;
