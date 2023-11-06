@@ -17,8 +17,12 @@ const getByName = async (req, res) => {
         const offset = (page - 1) * pageSize;
 
         const candidatos = await CandidatoService.findByName(req.body.nome, pageSize, offset)
-        //console.log(candidatos)
-        return res.json({ success: true, data: candidatos })
+        const count = await CandidatoService.countByName(req.body.nome)
+        //console.log(count[0].total)
+        return res.json({ success: true, data: {
+            candidatos,
+            count: count[0].total
+        } })
     } catch (error) {
         console.log(error)
         //return res.json({success: false, message: error.message, data: []})

@@ -91,7 +91,7 @@ body {
 
 }
 
-form {
+.form, form {
     padding: 15px;
 }
 

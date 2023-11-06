@@ -18,7 +18,7 @@ const countAll = () => {
     })
 }
 
-const findByName = (name, pageSize, offset) => {
+/* const findByName = (name, pageSize, offset) => {
     //console.log(name)
     return Candidato.findAndCountAll({
         where: {
@@ -30,9 +30,51 @@ const findByName = (name, pageSize, offset) => {
         limit: pageSize,
         offset: offset,
         raw: true, 
-        order: [['NM_CANDIDATO', 'ASC']]       
+        order: [['NM_CANDIDATO', 'ASC']],             
     })
-}
+} */
+
+const findByName = (name, pageSize, offset) => {
+    return sequelize.query(
+        `SELECT DISTINCT ON (id) id, "NM_CANDIDATO" as nome
+    FROM (
+      SELECT id, "NM_CANDIDATO" FROM "candidato" WHERE "NM_CANDIDATO" ILIKE :name
+      UNION
+      SELECT "CandidatoId" AS id, candidato."NM_CANDIDATO" AS "NM_CANDIDATO" FROM "candidatoEleicao"
+      JOIN "candidato" on candidato.id = "candidatoEleicao"."CandidatoId"
+      WHERE "NM_URNA_CANDIDATO" ILIKE :name
+    ) AS results
+    ORDER BY id
+    LIMIT :pageSize OFFSET :offset`,
+        {
+            replacements: { name: `%${name}%`, pageSize, offset },
+            type: sequelize.QueryTypes.SELECT,
+        }
+    );
+};
+
+const countByName = (name) => {
+    return sequelize.query(
+        `SELECT COUNT(*) AS total
+            FROM (
+                SELECT DISTINCT ON (id) id, "NM_CANDIDATO" as nome
+                    FROM (
+                        SELECT id, "NM_CANDIDATO" FROM "candidato" WHERE "NM_CANDIDATO" ILIKE :name
+                        UNION
+                        SELECT "CandidatoId" AS id, candidato."NM_CANDIDATO" AS "NM_CANDIDATO" FROM "candidatoEleicao"
+                        JOIN "candidato" on candidato.id = "candidatoEleicao"."CandidatoId"
+                        WHERE "NM_URNA_CANDIDATO" ILIKE :name
+                    )as dist_query
+            ) AS count_query`,
+        {
+            replacements: { name: `%${name}%` },
+            type: sequelize.QueryTypes.SELECT,
+            raw: true,
+        }
+    );
+};
+
+
 
 const findById = (id) => {
     return Candidato.findOne({
@@ -81,6 +123,7 @@ const findById = (id) => {
 }
 
 module.exports = {
+    countByName,
     countAll,
     findById,
     findByName

@@ -21,7 +21,8 @@ Raca.hasMany(Candidato, {
     foreignKey: 'RacaId',
 });
 
-Candidato.belongsTo(Genero, {foreignKey: 'GeneroId'
+Candidato.belongsTo(Genero, {
+    foreignKey: 'GeneroId'
 })
 Candidato.belongsTo(Raca, {
     foreignKey: 'RacaId'
@@ -90,8 +91,6 @@ CandidatoEleicao.belongsTo(Partido, {
 Partido.hasMany(CandidatoEleicao, {
     foreignKey: 'PartidoId'
 });
-
-
 
 
 console.log('Sync Models');

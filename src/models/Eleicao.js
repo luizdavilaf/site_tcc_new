@@ -17,7 +17,8 @@ const Eleicao = sequelize.define('eleicao', {
     },
     TIPO_ELEICAO: {
         field: "TIPO_ELEICAO",
-        type: DataTypes.STRING,       
+        type: DataTypes.STRING,  
+        comment: "REFERENCIA A ABRANGENCIA DA ELEICAO E UNIDADE ELEITORAL"     
     }
 }, {
     sequelize,

@@ -1,8 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require("../../db/sequelize-connection")
 
-
-
 const Candidato = sequelize.define('candidato', {     
     nome: {
         type: DataTypes.STRING,
@@ -43,23 +41,10 @@ const Candidato = sequelize.define('candidato', {
         type: DataTypes.DATE,        
         comment: "DATA DE NASCIMENTO",
         field: "DT_NASCIMENTO"
-    },     
-    // Outros campos relevantes
+    },         
 }, {
     sequelize,    
-    tableName: 'candidato',
-    /* indexes: [
-        // Exemplo de índice composto em nome e idade
-        {
-            name: 'NR_CPF_CANDIDATO',
-            fields: ['NR_CPF_CANDIDATO'],
-        },
-        {
-            name: 'NM_CANDIDATO',
-            fields: ['NM_CANDIDATO'],
-        },
-    ], */
-    
+    tableName: 'candidato',  
 });
 
 module.exports = Candidato;

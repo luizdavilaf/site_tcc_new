@@ -30,9 +30,14 @@
                     <p>Carregando...</p>
                     <p>Isto pode levar alguns minutos.</p>
                 </div>
+
+                 <div class="form">
+                    <input type="text" id="nome"  placeholder="Digite o nome do candidato">
+               <button class="w3-button w3-dark-grey" onclick="searchByButton()">Buscar</button>
+                 </div>
                 <form action="/noauth/candidate/search" method="get">
                     
-               <input type="text" id="nome"  onkeyup="search()" placeholder="Digite o nome do candidato">
+              
                 <br>  
                 <br>       
                 <label for="candidatoid"></label> 
@@ -60,10 +65,16 @@
         var currentPage = 1;
         const pageSize = 50;
         var resultsSelect = document.getElementById('results');
+
+        function searchByButton() {
+            var nome = document.getElementById('nome').value;
+            currentPage = 1; // Reinicie a página ao realizar uma nova pesquisa
+            search(nome);
+        }
         
-        function search() {          
+        function search(nome) {          
             
-            var nome = document.getElementById('nome').value;  
+            
             var loadingIndicator = document.getElementById('loadingIndicator');
             var loadMoreButton = document.getElementById('loadMoreButton');
             var loadMoreText = document.getElementById('load-more-description');
@@ -76,14 +87,14 @@
                     var results = JSON.parse(xhr.responseText);
                     resultsSelect.innerHTML = '';
                     if (results && results.success && results.data) {
-                        results.data.rows.forEach(function(result) {
+                        results.data.candidatos.forEach(function(result) {
                             var option = document.createElement('option');
                             option.value = result.id;
                             option.text = result.nome;
                             resultsSelect.appendChild(option);
                         });
                         var totalResults = results.data.count;
-                        var currentResults = results.data.rows.length;
+                        var currentResults = results.data.candidatos.length;
 
                         if (totalResults > currentResults) {
                             // Exibir o botão "Carregar Mais" se houver mais resultados
@@ -100,12 +111,14 @@
                     loadingIndicator.style.display = 'none';
                 }
             };                    
+                
                 xhr.send(JSON.stringify({ nome, page: currentPage, pageSize: pageSize }));
         }
 
-        function loadMore() {           
+        function loadMore() { 
+            var nome = document.getElementById('nome').value;          
             currentPage++; // Avance para a próxima página
-            search(); // Realize uma nova busca com a página atualizada
+            search(nome); // Realize uma nova busca com a página atualizada
         }
         function showLoader() {
             document.getElementById("loader-container").style.display = "flex";
