@@ -15,6 +15,10 @@ app.use(express.urlencoded({
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.redirect('/noauth/views/dashboard');
+});
+
 const noAuthRoutes = require('./src/routes/index');
 app.use('/noauth', noAuthRoutes);
 
