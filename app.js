@@ -1,8 +1,11 @@
 const express = require('express');
+config = require("./config/config")
 const app = express();
 const sync = require('./src/models/sync')
 db = require('./db/dbconnection');
 sequelize = require("./db/sequelize-connection");
+
+require('dotenv').config();
 
 const path = require('path');
 
