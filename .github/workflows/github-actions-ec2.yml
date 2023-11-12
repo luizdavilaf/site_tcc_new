@@ -20,14 +20,7 @@ jobs:
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
-        uses: burnett01/rsync-deployments@5.1
-        with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: ${{ secrets.TARGET_DIR }}
-          remote_host: ${{ secrets.HOST_DNS }}
-          remote_user: ${{ secrets.USERNAME }} 
-          remote_key: "${{ secrets.EC2_SSH_KEY  }}"
+        
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
