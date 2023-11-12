@@ -21,10 +21,12 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
+          ARGS: "-rltgoDzvO --delete --rsync-path='sudo rsync'"
           SOURCE: "./"
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
-          DB_PASS:  ${{ secrets.DB_PASS }}          
+          DB_PASS:  ${{ secrets.DB_PASS }}
+          
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
