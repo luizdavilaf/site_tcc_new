@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        name: Checkout the files        
+      - name: Checkout the files 
+        uses: npm install
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY  }}          
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
@@ -20,16 +21,24 @@ jobs:
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
-        
+      - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      - name: Deploy to EC2
+      run: |
+        # Configurar a chave privada
+        echo "$PRIVATE_KEY" > ~/.ssh/ec2_private_key.pem
+        chmod 600 ~/.ssh/ec2_private_key.pem        
 
-      - name: Executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_DNS }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo systemctl restart eleicao.service
+        # Exemplo com scp
+        scp -i ~/.ssh/ec2_private_key.pem -r ./${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
+
+        # Se necessário, reinicie serviços na instância
+        ssh -i ~/.ssh/ec2_private_key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
+      
+
+      
 
      
 
