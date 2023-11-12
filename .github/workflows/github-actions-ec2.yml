@@ -11,8 +11,9 @@ jobs:
     name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Checkout the files
-        uses: actions/checkout@v3
+        
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
