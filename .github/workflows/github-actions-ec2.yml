@@ -24,7 +24,7 @@ jobs:
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
-          ARGS: "-rltgoDzvO --delete"
+          ARGS: "-rltgoDzvO --delete --rsync-path='sudo rsync'"
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
