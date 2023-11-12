@@ -1,9 +1,11 @@
+
+
 module.exports = {
     development: {
         username: 'postgres',
-        password: 'postgres',
+        password: config.secretdb,
         database: 'eleicao_new',
-        host: '127.0.0.1',
+        host: config.urldb,
         dialect: 'postgres',
         logging: false,
     },
