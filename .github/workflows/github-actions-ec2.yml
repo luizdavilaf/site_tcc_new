@@ -36,5 +36,5 @@ jobs:
           chmod 600 ~/.ssh/ec2_private_key.pem          
       - name: ultima etapa
         run: |
-        scp -i ~/.ssh/ec2_private_key.pem -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
-        ssh -i ~/.ssh/ec2_private_key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
+          scp -i ~/.ssh/ec2_private_key.pem -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
+          ssh -i ~/.ssh/ec2_private_key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
