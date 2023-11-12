@@ -21,6 +21,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
+          SOURCE: "./"
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
