@@ -12,8 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Checkout the files
-        
+      - run: npm ci
+      - run: npm run build
+      - name: Checkout the files        
         env:
           PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY  }}          
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
@@ -21,9 +22,15 @@ jobs:
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
-        run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${HOSTNAME} bash sync.sh
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: ./*
+          remote_path: ${{ secrets.TARGET_DIR }}
+          remote_host: ${{ secrets.HOST_DNS }}
+          remote_user: ${{ secrets.USERNAME }} 
+          remote_key: "${{ secrets.EC2_SSH_KEY  }}"
+
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
