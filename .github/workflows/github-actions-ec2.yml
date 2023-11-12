@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout the files
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@main
@@ -24,8 +24,7 @@ jobs:
           SOURCE: "./"
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
-          DB_PASS:  ${{ secrets.DB_PASS }}
-          ARGS: "-rltgoDzvO --delete --rsync-path='sudo rsync'"
+          DB_PASS:  ${{ secrets.DB_PASS }}          
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
