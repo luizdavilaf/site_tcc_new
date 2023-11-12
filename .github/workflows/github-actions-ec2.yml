@@ -27,14 +27,9 @@ jobs:
         ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
       - name: Deploy to EC2
       run: |
-        # Configurar a chave privada
         echo "$PRIVATE_KEY" > ~/.ssh/ec2_private_key.pem
-        chmod 600 ~/.ssh/ec2_private_key.pem        
-
-        # Exemplo com scp
+        chmod 600 ~/.ssh/ec2_private_key.pem    
         scp -i ~/.ssh/ec2_private_key.pem -r ./${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
-
-        # Se necessário, reinicie serviços na instância
         ssh -i ~/.ssh/ec2_private_key.pem ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
       
 
