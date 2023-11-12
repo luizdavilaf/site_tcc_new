@@ -22,8 +22,8 @@ jobs:
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
         run: |
-          echo "$SSH_PRIVATE_KEY" > SSH_PRIVATE_KEY && chmod 600 SSH_PRIVATE_KEY
-          ssh -o StrictHostKeyChecking=no -i SSH_PRIVATE_KEY ${REMOTE_USER}@${HOSTNAME} bash sync.sh
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${HOSTNAME} bash sync.sh
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
