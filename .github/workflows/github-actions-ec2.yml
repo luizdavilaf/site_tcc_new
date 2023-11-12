@@ -9,25 +9,24 @@ on:
 jobs:
   deploy:
     name: Deploy to EC2 on master branch push
-    runs-on: self-hosted
-    
+    runs-on: ubuntu-latest
+     strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
       - name: Checkout the files
-        uses: actions/checkout@v2
-
-      - name: Deploy to Server 1
-        uses: easingthemes/ssh-deploy@main
+      - uses: actions/checkout@v3
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          ARGS: "-rltgoDzvO --delete"
-          SOURCE: "./"
+          REMOTE_USER: ${{ secrets.USERNAME }}  
           TARGET: ${{ secrets.TARGET_DIR }}
           DB_HOST:  ${{ secrets.DB_HOST }}
           DB_PASS:  ${{ secrets.DB_PASS }}
-          
-
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key && chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key ${REMOTE_USER}@${HOSTNAME} bash sync.sh
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
@@ -36,3 +35,20 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo systemctl restart eleicao.service
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+          
