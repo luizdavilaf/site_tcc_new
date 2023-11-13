@@ -38,6 +38,6 @@ jobs:
       - name: ultima etapa
         run: |
           set -x
-          scp -i ~/.ssh/ec2_private_key.pem -vvv -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
+          scp -i ~/.ssh/ec2_private_key.pem -C -v -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
           echo "ssh..."
           ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
