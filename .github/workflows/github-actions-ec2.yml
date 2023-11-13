@@ -36,11 +36,11 @@ jobs:
           chmod 600 ~/.ssh/ec2_private_key.pem             
       - name: reiniciando servicos
         run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
           set -x
           scp -i ~/.ssh/ec2_private_key.pem -C -v -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
           echo "ssh..."
-          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "echo 'export DB_HOST=${{ secrets.DB_HOST }}' >> ~/.bashrc"
-          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "echo 'export DB_PASS=${{ secrets.DB_PASS }}' >> ~/.bashrc"
           ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
 
       
