@@ -22,7 +22,6 @@ jobs:
         uses: actions/checkout@v3      
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
-
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
       - name: Create known_hosts file
@@ -36,8 +35,6 @@ jobs:
           chmod 600 ~/.ssh/ec2_private_key.pem             
       - name: reiniciando servicos
         run: |
-          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
-          echo "DB_PASS=${{ secrets.DB_PASS }}" >> .env
           set -x
           scp -i ~/.ssh/ec2_private_key.pem -C -v -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
           echo "ssh..."
