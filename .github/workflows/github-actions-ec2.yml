@@ -10,18 +10,19 @@ jobs:
   deploy:
     name: Deploy to EC2 on master branch push
     runs-on: ubuntu-latest
+    env:
+      PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+      REMOTE_HOST: ${{ secrets.HOST_DNS }}
+      REMOTE_USER: ${{ secrets.USERNAME }}
+      TARGET: ${{ secrets.TARGET_DIR }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PASS: ${{ secrets.DB_PASS }}
     steps:
       - name: Checkout the files
         uses: actions/checkout@v3      
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.4
-        env:
-          PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PASS: ${{ secrets.DB_PASS }}
+
         with:
           ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
       - name: Create known_hosts file
@@ -42,4 +43,4 @@ jobs:
       - name: Debug Environment Variables
         run: |
           echo "Todas as variáveis de ambiente:"
-          printenv
+          echo "DB_HOST: $DB_HOST"
