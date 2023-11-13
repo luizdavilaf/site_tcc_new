@@ -33,12 +33,14 @@ jobs:
         run: |
           echo "Setting up private key..."
           echo "$PRIVATE_KEY" > ~/.ssh/ec2_private_key.pem
-          chmod 600 ~/.ssh/ec2_private_key.pem          
+          chmod 600 ~/.ssh/ec2_private_key.pem             
       - name: reiniciando servicos
         run: |
           set -x
           scp -i ~/.ssh/ec2_private_key.pem -C -v -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
           echo "ssh..."
-          export DB_HOST=${{ secrets.DB_HOST }} && export DB_PASS=${{ secrets.DB_PASS }} && ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "export DB_HOST='${DB_HOST}' && export DB_PASS='${DB_PASS}' && sudo systemctl restart eleicao.service"
+          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "export DB_HOST=${{ secrets.DB_HOST }}"
+          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "export DB_PASS=${{ secrets.DB_PASS }}"
+          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
 
       
