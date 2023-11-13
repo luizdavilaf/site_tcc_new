@@ -39,5 +39,6 @@ jobs:
           set -x
           scp -i ~/.ssh/ec2_private_key.pem -C -v -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
           echo "ssh..."
-          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "export DB_HOST='${DB_HOST}' && export DB_PASS='${DB_PASS}' && sudo systemctl restart eleicao.service"
+          export DB_HOST=${{ secrets.DB_HOST }} && export DB_PASS=${{ secrets.DB_PASS }} && ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "export DB_HOST='${DB_HOST}' && export DB_PASS='${DB_PASS}' && sudo systemctl restart eleicao.service"
+
       
