@@ -39,13 +39,5 @@ jobs:
           set -x
           scp -i ~/.ssh/ec2_private_key.pem -C -v -r ./* ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }}:${{ secrets.TARGET_DIR }}
           echo "ssh..."
-          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "sudo systemctl restart eleicao.service"
-      - name: Set up environment
-        run: |
-          echo "DB_HOST=${{ secrets.DB_HOST }}" >> env-vars
-          echo "DB_PASS=${{ secrets.DB_PASS }}" >> env-vars
-      - name: Upload environment
-        uses: actions/upload-artifact@v2
-        with:
-          name: env-vars
-          path: env-vars
+          ssh -i ~/.ssh/ec2_private_key.pem -vvv ${{ secrets.USERNAME }}@${{ secrets.HOST_DNS }} "export DB_HOST='${DB_HOST}' && export DB_PASS='${DB_PASS}' && sudo systemctl restart eleicao.service"
+      
