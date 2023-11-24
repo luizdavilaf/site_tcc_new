@@ -42,7 +42,7 @@ const getHistoryByVariable = async (req, res) => {
             tituloVariavel = "Idade"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(PartidoService.getPartidoEleicaoByAge(parseInt(req.body.partido), parseInt(eleicao.id)))
+                promises.push(PartidoService.getAVGPartidoEleicaoByAge(parseInt(req.body.partido), parseInt(eleicao.id)))
             }
         } else if (req.body.variavel == "ocupacao") {
             tituloVariavel = "Ocupação"
