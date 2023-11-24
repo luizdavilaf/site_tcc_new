@@ -190,7 +190,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
             tituloVariavel = "Idade"
             for (let i = 0; i < eleicoes.length; i++) {
                 const eleicao = eleicoes[i];
-                promises.push(CandidatoEleicaoService.getCandidatoEleicaoByAge(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
+                promises.push(CandidatoEleicaoService.getAvgAgeCandidatoEleicaoByAge(parseInt(eleicao.id), parseInt(req.body.eleicao1.regiao), req.body.eleicao1.situacao_turno, req.body.eleicao1.cargo))
             }
         } else if (req.body.variavel == "partido") {
             tituloVariavel = "Partido"

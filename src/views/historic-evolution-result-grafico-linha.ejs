@@ -31,32 +31,20 @@
                 const data = <%- JSON.stringify(chartData) %>;
 
               
-
-                const config = {
-                    type: 'bar',
+  const config = {
+                    type: 'line',
                     data: data,
-                    options: {
-                        responsive: true,
+                    options: {                        
                         plugins: {
-                            legend: {
-                                position: 'bottom',
-                            },
-                            title: {
-                                display: true,
-                                text:'<%-regiao%>'
-                            },                            
+                        legend: {
+                            position: 'bottom',
                         },
-                        scales: {
-                            x: {
-                                stacked: true,
-                            },
-                            y: {
-                                beginAtZero: true,
-                                stacked: true
-                            }
+                        title: {
+                            display: true,
+                            text: '<%-regiao%>'
+                        }
                         }
                     },
-                    
                 };
                 new Chart(ctx,config);
             

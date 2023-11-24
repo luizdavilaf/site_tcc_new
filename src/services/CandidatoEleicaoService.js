@@ -190,6 +190,60 @@ const getCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
 }
 
 
+const getAvgAgeCandidatoEleicaoByAge = (eleicao, regiao, situacao_turno, cargo) => {
+    return CandidatoEleicao.findAll({
+        where: {
+            EleicaoId: eleicao,
+            UnidadeEleitoralId: regiao,
+            idade_data_da_posse: {
+                [Sequelize.Op.gte]: 18, // maior ou igual a 18
+                [Sequelize.Op.lte]: 100 // menor ou igual a 100
+            }
+        },
+        include:
+            [
+                {
+                    model: Cargo,
+                    attributes: [],
+                    where: cargo == "todos" ? {} : { id: cargo }
+                },
+                {
+                    model: SituacaoTurno,
+                    attributes: [],
+                    where: situacao_turno == "todos" ? {}
+                        : situacao_turno == "todosEleitos" ? { foiEleito: true }
+                            : { id: situacao_turno }
+                }
+                ,
+                {
+                    model: UnidadeEleitoral,
+                    attributes: [],
+                }
+                ,
+                {
+                    model: Eleicao,
+                    attributes: [],
+                },
+            ],
+        attributes: [
+            [Sequelize.col('eleicao.ANO_ELEICAO'), 'anoEleicao'],
+            [Sequelize.col('eleicao.NR_TURNO'), 'turno'],
+            [Sequelize.col('unidadeEleitoral.SG_UF'), 'estado'],
+            [Sequelize.col('unidadeEleitoral.NM_UE'), 'nome'],            
+            [Sequelize.fn('AVG', Sequelize.col('NR_IDADE_DATA_POSSE')), 'idade'],
+            [Sequelize.fn('COUNT', Sequelize.col('CandidatoId')), 'totalCandidatos'],
+        ],
+        group: [
+            'anoEleicao',
+            'turno',
+            'estado',
+            'nome',            
+        ],       
+        raw: true,
+
+    })
+}
+
 const getCandidatoEleicaoByOcupation = (eleicao, regiao, situacao_turno, cargo) => {
     return CandidatoEleicao.findAll({
         where: {
@@ -419,4 +473,5 @@ module.exports = {
     getCandidatoEleicaoByAge,
     getCandidatoEleicaoByOcupation,
     getCandidatoEleicaoByParty,
+    getAvgAgeCandidatoEleicaoByAge,
 }
