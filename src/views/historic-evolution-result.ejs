@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Evolução Histórica</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
      <meta name="viewport" content="width=device-width, initial-scale=1">     
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
@@ -25,7 +26,7 @@
                 <div class="charts">
                     <div class="chart">
                 
-                <canvas id="ChartResult" width="300" height="150"></canvas>
+                <canvas id="ChartResult" width="300" height="120"></canvas>
                 <script>
                 const ctx = document.getElementById('ChartResult').getContext('2d');                                                               
                 const data = <%- JSON.stringify(chartData) %>;
@@ -44,7 +45,12 @@
                             title: {
                                 display: true,
                                 text:'<%-regiao%>'
-                            },                            
+                            },
+                            datalabels: {
+                                color: 'white', // Cor dos números
+                                anchor: 'center', // Posição do número (pode ser 'start', 'center' ou 'end')
+                                align: 'center' // Alinhamento do número (pode ser 'start', 'center' ou 'end')
+                            }                            
                         },
                         scales: {
                             x: {
@@ -56,7 +62,7 @@
                             }
                         }
                     },
-                    
+                     plugins: [ChartDataLabels]
                 };
                 new Chart(ctx,config);
             

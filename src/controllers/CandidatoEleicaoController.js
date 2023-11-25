@@ -251,7 +251,8 @@ const getFormDataForHistoricEvolution = async (req, res) => {
                 label: variavel, // Use o gênero como label
                 data: [], // Array de dados para o gênero
                 backgroundColor: utils.generateSequentialColors(index),
-                borderColor: utils.generateSequentialColors(index)
+                borderColor: utils.generateSequentialColors(index),
+                minBarLength: tituloVariavel != "Idade" ? 15 : 0,
             };
 
 
@@ -259,9 +260,12 @@ const getFormDataForHistoricEvolution = async (req, res) => {
             filteredElections.forEach((eleicao) => {
                 // Procure o valor correspondente no array de dados do ano/gênero
                 const valor = eleicao.find((item) => item[req.body.variavel] === variavel);
-
-                // Se encontrou, use o valor totalCandidatos, caso contrário, use 0
-                dataset.data.push(valor ? valor.totalCandidatos : 0);
+                if (tituloVariavel != "Idade") {
+                    // Se encontrou, use o valor totalCandidatos, caso contrário, use 0
+                    dataset.data.push(valor ? valor.totalCandidatos : 0);
+                } else {
+                    dataset.data.push(valor ? valor.idade : 0);
+                }
             });
 
             // Adicione o dataset ao objeto de dados final
