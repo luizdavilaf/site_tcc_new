@@ -23,7 +23,7 @@ const getByName = async (req, res) => {
     } catch (error) {
         console.log(error)
         //return res.json({success: false, message: error.message, data: []})
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
 
     }
 }
@@ -104,7 +104,7 @@ const getById = async (req, res) => {
         
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
         //return res.json({ success: false, message: error.message, data: [] })
 
     }

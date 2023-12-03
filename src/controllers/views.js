@@ -16,7 +16,7 @@ const renderResultsYearForm = async (req, res) => {
         return res.render("results-year-form", { eleicoes, abrangencias, situacoes_turno, cargos, unidades_eleitorais })
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -31,7 +31,7 @@ const renderResultsYearFormForCompare = async (req, res) => {
         return res.render("compare-regions-form", { eleicoes, abrangencias, situacoes_turno, cargos, unidades_eleitorais })
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -40,7 +40,7 @@ const renderSearchCandidates = async (req, res) => {
         return res.render("search-candidates-form")
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -53,7 +53,7 @@ const renderHistoricEvolution = async (req,res) =>{
         return res.render("historic-evolution-form", { abrangencias, situacoes_turno, cargos, unidades_eleitorais })        
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -64,7 +64,7 @@ const renderPartyHistoricEvolution = async (req, res) => {
         return res.render("party-historic-evolution-form", { partidos })
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -76,7 +76,7 @@ const renderDashboard = async (req, res) => {
         return res.render("dashboard", { candidatos: Number(result[0]).toLocaleString(), eleicoes: result[1].length, partidos: result[2],  })
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -87,7 +87,7 @@ const renderOpinions = async (req, res) => {
         return res.render("submit-opinion")
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 

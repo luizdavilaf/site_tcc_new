@@ -6,7 +6,7 @@ const getAll = async (req, res) => {
         const eleicoes = await EleicaoService.findAll()      
         return res.json({ success: true, data: eleicoes })
     } catch (error) {
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
         //return res.json({success: false, message: error.message})
 
     }

@@ -127,7 +127,7 @@ const getHistoryByVariable = async (req, res) => {
         
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
         //return res.json({success: false, message: error.message, data: []})
 
     }

@@ -89,7 +89,7 @@ const getFormData = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -155,7 +155,7 @@ const getFormDataForCompare = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 
@@ -278,7 +278,7 @@ const getFormDataForHistoricEvolution = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.render('error.ejs');
+        res.status(500).render('error.ejs');
     }
 }
 module.exports = {
